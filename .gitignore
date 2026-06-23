@@ -14,7 +14,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -47,7 +46,7 @@ SourceArt/**/*.png
 SourceArt/**/*.tga
 
 # Ignore Unreal Engine binaries files
-Binaries/
+Binaries/*
 Plugins/**/Binaries/*
 
 # Modules and Plugins Files exception
@@ -55,10 +54,10 @@ Plugins/**/Binaries/*
 Binaries/Win64/*
 !Binaries/Win64/UnrealEditor.modules
 # PROJECT NAME HERE
-!Binaries/Win64/SmashUEEditor.target
-!Binaries/Win64/UnrealEditor-SmashUE.dll
+!Binaries/Win64/GambleProjectEditor.target
+!Binaries/Win64/UnrealEditor-GambleProject.dll
 # ADD MODULES AND PLUGINS IN PROJECTS TO MAKE GA AND GD LAUNCH EDITOR)
-!Binaries/Win64/UnrealEditor-LocalMultiplayer.dll
+#!Binaries/Win64/UnrealEditor-LocalMultiplayer.dll
 
 # Builds
 Build/*
@@ -83,4 +82,6 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
 .idea
+GambleProject.sln.DotSettings.user
