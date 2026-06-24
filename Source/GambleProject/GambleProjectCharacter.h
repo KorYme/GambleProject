@@ -49,6 +49,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* MouseLookAction;
 	
+	UPROPERTY(EditAnywhere, Category ="Input")
+	class UInputAction* FireAction;
+	
+	UPROPERTY(EditAnywhere, Category ="Input")
+	class UInputAction* RerollAction;
+	
 public:
 	AGambleProjectCharacter();
 
@@ -75,6 +81,12 @@ protected:
 	/** Handles jump end inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnFire();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnReroll();
 
 protected:
 
