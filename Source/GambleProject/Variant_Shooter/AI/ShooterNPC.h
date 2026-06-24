@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GambleProjectCharacter.h"
+#include "Variant_Template/TemplateCharacter.h"
 #include "ShooterWeaponHolder.h"
 #include "ShooterNPC.generated.h"
 
@@ -17,7 +17,7 @@ class AShooterWeapon;
  *  Holds and manages a weapon
  */
 UCLASS(abstract)
-class GAMBLEPROJECT_API AShooterNPC : public AGambleProjectCharacter, public IShooterWeaponHolder
+class GAMBLEPROJECT_API AShooterNPC : public ATemplateCharacter, public IShooterWeaponHolder
 {
 	GENERATED_BODY()
 

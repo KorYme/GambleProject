@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GambleProjectCharacter.h"
+#include "Variant_Template/TemplateCharacter.h"
 #include "HorrorCharacter.generated.h"
 
 class USpotLightComponent;
@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSprintStateChangedDelegate, bool, b
  *  Provides stamina-based sprinting
  */
 UCLASS(abstract)
-class GAMBLEPROJECT_API AHorrorCharacter : public AGambleProjectCharacter
+class GAMBLEPROJECT_API AHorrorCharacter : public ATemplateCharacter
 {
 	GENERATED_BODY()
 

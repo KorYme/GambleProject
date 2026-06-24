@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GambleProjectCharacter.h"
+#include "Variant_Template/TemplateCharacter.h"
 #include "ShooterWeaponHolder.h"
 #include "ShooterCharacter.generated.h"
 
@@ -21,7 +21,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamagedDelegate, float, LifePercent
  *  Manages health and death
  */
 UCLASS(abstract)
-class GAMBLEPROJECT_API AShooterCharacter : public AGambleProjectCharacter, public IShooterWeaponHolder
+class GAMBLEPROJECT_API AShooterCharacter : public ATemplateCharacter, public IShooterWeaponHolder
 {
 	GENERATED_BODY()
 	
