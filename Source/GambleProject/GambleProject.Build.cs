@@ -26,6 +26,8 @@ public class GambleProject : ModuleRules
 		PublicIncludePaths.AddRange(new string[] {
 			"GambleProject",
 			"GambleProject/Variant_Horror",
+			"GambleProject/Public",
+			// "GambleProject/Private",
 			"GambleProject/Variant_Horror/UI",
 			"GambleProject/Variant_Shooter",
 			"GambleProject/Variant_Shooter/AI",

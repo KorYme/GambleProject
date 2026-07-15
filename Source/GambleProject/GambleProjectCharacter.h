@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Notify/HitTriggerNotifiable.h"
+#include "Notify/HitWindowNotifiable.h"
 #include "GambleProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -19,7 +21,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  A basic first person character
  */
 UCLASS(abstract)
-class AGambleProjectCharacter : public ACharacter
+class AGambleProjectCharacter : public ACharacter, public IHitWindowNotifiable, public IHitTriggerNotifiable
 {
 	GENERATED_BODY()
 
@@ -101,6 +103,5 @@ public:
 
 	/** Returns first person camera component **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
 };
 
