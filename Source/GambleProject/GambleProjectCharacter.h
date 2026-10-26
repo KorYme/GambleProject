@@ -57,6 +57,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* RerollAction;
 	
+	UPROPERTY(EditAnywhere, Category ="Input")
+	class UInputAction* SprintAction;
+	
 public:
 	AGambleProjectCharacter();
 
@@ -92,6 +95,13 @@ protected:
 	
 	UFUNCTION(BlueprintImplementableEvent, Category="Input")
 	void OnReroll();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnSprintingStart();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnSprintingStop();
+
 
 protected:
 

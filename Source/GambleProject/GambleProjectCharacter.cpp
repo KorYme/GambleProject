@@ -64,6 +64,9 @@ void AGambleProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Ongoing, this, &AGambleProjectCharacter::OnFireGoing);
 		
 		EnhancedInputComponent->BindAction(RerollAction, ETriggerEvent::Started, this, &AGambleProjectCharacter::OnReroll);
+		
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AGambleProjectCharacter::OnSprintingStart);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGambleProjectCharacter::OnSprintingStop);
 	}
 	else
 	{
