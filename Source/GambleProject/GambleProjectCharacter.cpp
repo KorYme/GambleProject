@@ -67,6 +67,9 @@ void AGambleProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 		
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AGambleProjectCharacter::OnSprintingStart);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGambleProjectCharacter::OnSprintingStop);
+		
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AGambleProjectCharacter::OnCrouchingStart);
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGambleProjectCharacter::OnCrouchingStop);
 	}
 	else
 	{

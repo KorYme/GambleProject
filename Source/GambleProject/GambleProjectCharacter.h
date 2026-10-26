@@ -60,6 +60,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* SprintAction;
 	
+	UPROPERTY(EditAnywhere, Category ="Input")
+	class UInputAction* CrouchAction;
+	
 public:
 	AGambleProjectCharacter();
 
@@ -101,7 +104,12 @@ protected:
 	
 	UFUNCTION(BlueprintImplementableEvent, Category="Input")
 	void OnSprintingStop();
-
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnCrouchingStart();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnCrouchingStop();
 
 protected:
 
