@@ -30,7 +30,7 @@ AGambleProjectCharacter::AGambleProjectCharacter()
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 	FirstPersonCameraComponent->bEnableFirstPersonFieldOfView = true;
 	FirstPersonCameraComponent->bEnableFirstPersonScale = true;
-	FirstPersonCameraComponent->FirstPersonFieldOfView = 70.0f;
+	FirstPersonCameraComponent->FirstPersonFieldOfView = 90.0f;
 	FirstPersonCameraComponent->FirstPersonScale = 0.6f;
 
 	// configure the character comps
