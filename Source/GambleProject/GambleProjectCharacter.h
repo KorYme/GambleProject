@@ -88,6 +88,9 @@ protected:
 	void OnFire();
 	
 	UFUNCTION(BlueprintImplementableEvent, Category="Input")
+	void OnFireGoing();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Input")
 	void OnReroll();
 
 protected:
