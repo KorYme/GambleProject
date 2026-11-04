@@ -85,7 +85,6 @@ void AGambleProjectCharacter::MoveInput(const FInputActionValue& Value)
 
 	// pass the axis values to the move input
 	DoMove(MovementVector.X, MovementVector.Y);
-
 }
 
 void AGambleProjectCharacter::LookInput(const FInputActionValue& Value)
@@ -110,6 +109,7 @@ void AGambleProjectCharacter::DoAim(float Yaw, float Pitch)
 
 void AGambleProjectCharacter::DoMove(float Right, float Forward)
 {
+	if (IsCharacterSliding) return;
 	if (GetController())
 	{
 		// pass the move inputs

@@ -32,6 +32,9 @@ class AGambleProjectCharacter : public ACharacter, public IHitWindowNotifiable, 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Components", meta = (AllowPrivateAccess = "true"))
+	bool IsCharacterSliding;
 
 protected:
 
