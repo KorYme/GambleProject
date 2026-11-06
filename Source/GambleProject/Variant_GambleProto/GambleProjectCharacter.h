@@ -20,7 +20,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 /**
  *  A basic first person character
  */
-UCLASS(abstract)
+UCLASS(Abstract)
 class AGambleProjectCharacter : public ACharacter, public IHitWindowNotifiable, public IHitTriggerNotifiable
 {
 	GENERATED_BODY()

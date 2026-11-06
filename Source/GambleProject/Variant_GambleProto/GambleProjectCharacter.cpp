@@ -73,7 +73,7 @@ void AGambleProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	}
 	else
 	{
-		UE_LOG(LogGambleProject, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+		UE_LOG(LogGambleProject, Error, TEXT("'%s' Failed to find an Enhanced Input Component!"), *GetNameSafe(this));
 	}
 }
 

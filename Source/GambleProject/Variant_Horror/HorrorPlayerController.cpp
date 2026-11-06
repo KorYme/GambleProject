@@ -5,7 +5,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
-#include "GambleProjectCameraManager.h"
+#include "Variant_GambleProto/GambleProjectCameraManager.h"
 #include "HorrorCharacter.h"
 #include "HorrorUI.h"
 #include "GambleProject.h"
