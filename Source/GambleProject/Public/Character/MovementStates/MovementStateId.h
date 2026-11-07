@@ -9,5 +9,10 @@ enum class EMovementStateId : uint8
 {
 	None = 0,
 	Idle,
-	
+	Walk,
+	Run,
+	Jump,
+	Fall,
+	Slide,
+	WallRun
 };

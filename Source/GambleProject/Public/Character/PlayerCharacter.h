@@ -6,6 +6,17 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+class UPlayerInputData;
+class UInputComponent;
+class UEnhancedInputComponent;
+class UMovementStateMachine;
+class UInputAction;
+struct FInputActionValue;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputFloatEvent, const float, ValueFloat);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputVectorEvent, const FVector2D, ValueVector);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputBoolEvent, const bool, ValueBool);
+
 UCLASS()
 class GAMBLEPROJECT_API APlayerCharacter : public ACharacter
 {
@@ -15,14 +26,89 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+private:
+	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<UMovementStateMachine> MovementStateMachine;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+#pragma region INPUTS
+protected:
+	UPROPERTY(EditDefaultsOnly, Category ="Input")
+	TObjectPtr<UPlayerInputData> InputData;
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputVectorEvent OnMoveInputEvent;
+	
+	UFUNCTION(BlueprintGetter)
+	const FVector2D GetMoveInputDirection() const { return CurrentMoveInput; }
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputVectorEvent OnAimInputEvent;
+	
+	UFUNCTION(BlueprintGetter)
+	const FVector2D GetAimInputDirection() const { return CurrentAimInput; }
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputBoolEvent OnJumpInputEvent;
+		
+	UFUNCTION(BlueprintGetter)
+	const bool IsJumpInputPressed() const { return CurrentJumpInput; }
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputBoolEvent OnSprintInputEvent;
+			
+	UFUNCTION(BlueprintGetter)
+	const bool IsSprintInputPressed() const { return CurrentSprintInput; }
+
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputBoolEvent OnCrouchInputEvent;
+			
+	UFUNCTION(BlueprintGetter)
+	const bool IsCrouchInputPressed() const { return CurrentCrouchInput; }
+
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputBoolEvent OnFireInputEvent;
+			
+	UFUNCTION(BlueprintGetter)
+	const bool IsFireInputPressed() const { return CurrentFireInput; }
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Events")
+	FInputBoolEvent OnRerollInputEvent;
+			
+	UFUNCTION(BlueprintGetter)
+	const bool IsRerollInputPressed() const { return CurrentRerollInput; }
+	
+private:
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	
+	void OnInputMove(const FInputActionValue& InputActionValue);
+		
+	FVector2D CurrentMoveInput;
+	
+	void OnInputAim(const FInputActionValue& InputActionValue);
+	
+	FVector2D CurrentAimInput;
+	
+	void OnInputJump(const FInputActionValue& InputActionValue);
+	
+	bool CurrentJumpInput;
+	
+	void OnInputSprint(const FInputActionValue& InputActionValue);
+	
+	bool CurrentSprintInput;
+	
+	void OnInputCrouch(const FInputActionValue& InputActionValue);
+	
+	bool CurrentCrouchInput;
+	
+	void OnInputFire(const FInputActionValue& InputActionValue);
+	
+	bool CurrentFireInput;
+	
+	void OnInputReroll(const FInputActionValue& InputActionValue);
+	
+	bool CurrentRerollInput;
+#pragma endregion
 };

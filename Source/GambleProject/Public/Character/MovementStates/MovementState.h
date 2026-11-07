@@ -3,52 +3,38 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Character/MovementStates/MovementStateId.h"
+#include "MovementStateMachine.h"
+#include "StateMachine/GenericState.h"
 #include "MovementState.generated.h"
 
-class APlayerCharacter;
+class UMovementStateMachineData;
+enum class EMovementStateId : uint8;
 class UMovementStateMachine;
 
-UCLASS(Abstract, BluePrintable)
-class GAMBLEPROJECT_API UMovementState : public UActorComponent
+UCLASS(Abstract)
+class GAMBLEPROJECT_API UMovementState : public UGenericState
 {
 	GENERATED_BODY()
-	
 public:
-	virtual const EMovementStateId GetStateId() const { return EMovementStateId::None; }
+	virtual void StateInit(UGenericStateMachine* InitStateMachine) override;
 	
-	UPROPERTY(EditDefaultsOnly)
-	EMovementStateId StateId;
+	virtual void StateEnter(uint8 PreviousStateId) override;
 	
-	// TODO : Implement those events
-	UFUNCTION(NotBlueprintable)
-	virtual void StateInit(UMovementStateMachine* InitStateMachine);
-	
-	UFUNCTION(NotBlueprintable)
-	virtual void StateEnter(EMovementStateId PreviousStateId);
-	
-	UFUNCTION(NotBlueprintable)
-	virtual void StateExit(EMovementStateId NextStateId);
-	
-	UFUNCTION(NotBlueprintable)
-	virtual void StateTick(float DeltaTime);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MovementState")
-	void OnStateInit(UMovementStateMachine* InitStateMachine);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MovementState")
-	void OnStateEnter(EMovementStateId PreviousStateId);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MovementState")
-	void OnStateExit(EMovementStateId NextStateId);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = "MovementState")
-	void OnStateTick(float DeltaTime);
+	virtual void StateExit(uint8 NextStateId) override;
 	
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<APlayerCharacter> Character;
-	
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
 	TObjectPtr<UMovementStateMachine> StateMachine;
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "StateMachine")
+	void OnStateInit(UMovementStateMachine* InitStateMachine);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "StateMachine")
+	void OnStateEnter(EMovementStateId PreviousStateId);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "StateMachine")
+	void OnStateExit(EMovementStateId NextStateId);
+	
+	UFUNCTION(BlueprintGetter, Category = "StateMachine")
+	const UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
 };

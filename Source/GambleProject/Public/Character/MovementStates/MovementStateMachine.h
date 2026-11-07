@@ -3,47 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
-#include "Character/MovementStates/MovementStateId.h"
+#include "StateMachine/GenericStateMachine.h"
 #include "MovementStateMachine.generated.h"
 
+
+class UMovementStateMachineData;
 class UMovementState;
-class APlayerCharacter;
-/**
- * 
- */
-UCLASS()
-class GAMBLEPROJECT_API UMovementStateMachine : public UObject
+enum class EMovementStateId : uint8;
+
+UCLASS(BlueprintType, ClassGroup= "State Machine", meta= (BlueprintSpawnableComponent))
+class GAMBLEPROJECT_API UMovementStateMachine : public UGenericStateMachine
 {
 	GENERATED_BODY()
 	
 public:
-	void Init(APlayerCharacter* InCharacter);
-	
-	void Tick(float DeltaTime);
-	
-	APlayerCharacter* GetPlayerCharacter() const { return Character; }
-	
 	UFUNCTION(BlueprintCallable)
-	void ChangeState(EMovementStateId NextStateId);
+	void ChangeState(EMovementStateId NewStateId);
 	
-protected:
-	UPROPERTY()
-	TObjectPtr<APlayerCharacter> Character;
-
-	UPROPERTY()
-	TMap<EMovementStateId, UMovementState*> AllStates;
-
-	UPROPERTY(BlueprintReadOnly)
-	EMovementStateId CurrentStateId;
-
-	UPROPERTY()
-	TObjectPtr<UMovementState> CurrentState;
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UMovementStateMachineData> MovementData;
 	
-	UFUNCTION(BlueprintCallable)
-	const UMovementState* GetCurrentState() const { return CurrentState; }
-
-	void GetStates();
-	
-	void InitStates();
+private:
+	UPROPERTY(Config, EditAnywhere, Category = "States")
+	TMap<EMovementStateId, TSubclassOf<UMovementState>> CharacterStateClasses;
 };

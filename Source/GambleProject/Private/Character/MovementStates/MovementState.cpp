@@ -1,24 +1,27 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/MovementState.h"
+#include "Character/MovementStates/MovementStateId.h"
+#include "Character/MovementStates/MovementStateMachine.h"
 
-void UMovementState::StateInit(UMovementStateMachine* InitStateMachine)
+void UMovementState::StateInit(UGenericStateMachine* InitStateMachine)
 {
-	OnStateInit(InitStateMachine);
+	Super::StateInit(InitStateMachine);
+	if (UMovementStateMachine* MovementStateMachine = static_cast<UMovementStateMachine*>(InitStateMachine))
+	{
+		StateMachine = MovementStateMachine;
+		OnStateInit(MovementStateMachine);
+	}
 }
 
-void UMovementState::StateEnter(EMovementStateId PreviousStateId)
+void UMovementState::StateEnter(uint8 PreviousStateId)
 {
-	OnStateEnter(PreviousStateId);
+	Super::StateEnter(PreviousStateId);
+	OnStateEnter((EMovementStateId)PreviousStateId);
 }
 
-void UMovementState::StateExit(EMovementStateId NextStateId)
+void UMovementState::StateExit(uint8 NextStateId)
 {
-	OnStateExit(NextStateId);
-}
-
-void UMovementState::StateTick(float DeltaTime)
-{
-	OnStateTick(DeltaTime);
+	Super::StateExit(NextStateId);
+	OnStateExit((EMovementStateId)NextStateId);
 }
