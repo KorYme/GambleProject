@@ -6,22 +6,22 @@
 
 void UMovementState::StateInit(UGenericStateMachine* InitStateMachine)
 {
-	Super::StateInit(InitStateMachine);
 	if (UMovementStateMachine* MovementStateMachine = static_cast<UMovementStateMachine*>(InitStateMachine))
 	{
 		StateMachine = MovementStateMachine;
 		OnStateInit(MovementStateMachine);
 	}
+	Super::StateInit(InitStateMachine);
 }
 
 void UMovementState::StateEnter(uint8 PreviousStateId)
 {
-	Super::StateEnter(PreviousStateId);
 	OnStateEnter((EMovementStateId)PreviousStateId);
+	Super::StateEnter(PreviousStateId);
 }
 
 void UMovementState::StateExit(uint8 NextStateId)
 {
-	Super::StateExit(NextStateId);
 	OnStateExit((EMovementStateId)NextStateId);
+	Super::StateExit(NextStateId);
 }

@@ -26,6 +26,6 @@ public:
 	void OnStateTick(float DeltaTime);
 	
 protected:
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
 	TObjectPtr<APlayerCharacter> Character;
 };

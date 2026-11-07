@@ -2,9 +2,11 @@
 
 
 #include "StateMachine/GenericState.h"
+#include "StateMachine/GenericStateMachine.h"
 
 void UGenericState::StateInit(UGenericStateMachine* InitStateMachine)
 {
+	Character = InitStateMachine->Character;
 }
 
 void UGenericState::StateEnter(uint8 PreviousStateId)

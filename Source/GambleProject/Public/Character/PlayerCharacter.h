@@ -25,6 +25,8 @@ class GAMBLEPROJECT_API APlayerCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
+	
+	virtual void BeginPlay() override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -34,7 +36,7 @@ private:
 	TObjectPtr<UMovementStateMachine> MovementStateMachine;
 
 #pragma region INPUTS
-protected:
+public:
 	UPROPERTY(EditDefaultsOnly, Category ="Input")
 	TObjectPtr<UPlayerInputData> InputData;
 	

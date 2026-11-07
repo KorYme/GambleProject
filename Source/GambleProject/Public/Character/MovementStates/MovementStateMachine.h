@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UMovementStateMachineData> MovementData;
 	
+protected:
+	virtual TMap<uint8, TSubclassOf<UGenericState>> GetAllState() const override;
+	
 private:
 	UPROPERTY(Config, EditAnywhere, Category = "States")
 	TMap<EMovementStateId, TSubclassOf<UMovementState>> CharacterStateClasses;

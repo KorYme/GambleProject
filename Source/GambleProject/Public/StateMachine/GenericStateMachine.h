@@ -19,13 +19,10 @@ public:
 	
 	void StateMachineTick(float DeltaTime);
 	
-	APlayerCharacter* GetPlayerCharacter() const { return Character; }
-	
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<APlayerCharacter> Character;
 	
 protected:
-	UPROPERTY()
-	TObjectPtr<APlayerCharacter> Character;
-
 	UPROPERTY()
 	TMap<uint8, UGenericState*> AllStates;
 
@@ -38,9 +35,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	const UGenericState* GetCurrentState() const { return CurrentState; }
 	
+	
+	virtual TMap<uint8, TSubclassOf<UGenericState>> GetAllState() const;
+	
 	void ChangeState(uint8 NextStateId);
 	
-	virtual void GetStates();
+	void InstantiateStates();
 	
 	void InitStates();
 };

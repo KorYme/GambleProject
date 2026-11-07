@@ -17,21 +17,26 @@ APlayerCharacter::APlayerCharacter()
 	MovementStateMachine = CreateDefaultSubobject<UMovementStateMachine>(TEXT("MovementStateMachine"));
 }
 
-// Called every frame
+void APlayerCharacter::BeginPlay()
+{
+	MovementStateMachine->Init(this);
+	Super::BeginPlay();
+}
+
 void APlayerCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
 	MovementStateMachine->StateMachineTick(DeltaTime);
+	Super::Tick(DeltaTime);
 }
 
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInputComponent->BindAction(InputData->MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacter::OnInputMove);
-
+		EnhancedInputComponent->BindAction(InputData->MoveAction, ETriggerEvent::Completed, this, &APlayerCharacter::OnInputMove);
+ 
 		EnhancedInputComponent->BindAction(InputData->MouseAimAction, ETriggerEvent::Triggered, this, &APlayerCharacter::OnInputAim);
 		EnhancedInputComponent->BindAction(InputData->GamepadAimAction, ETriggerEvent::Triggered, this, &APlayerCharacter::OnInputAim);
 		
@@ -54,6 +59,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	{
 		UE_LOG(LogGambleProject, Error, TEXT("'%s' Failed to find an Enhanced Input Component!"), *GetNameSafe(this));
 	}
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
 void APlayerCharacter::OnInputMove(const FInputActionValue& InputActionValue)

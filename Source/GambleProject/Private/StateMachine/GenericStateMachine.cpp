@@ -8,7 +8,7 @@
 void UGenericStateMachine::Init(APlayerCharacter* InCharacter)
 {
 	this->Character = InCharacter;
-	GetStates();
+	InstantiateStates();
 	InitStates();
 }
 
@@ -18,6 +18,11 @@ void UGenericStateMachine::StateMachineTick(float DeltaTime)
 	{
 		CurrentState->StateTick(DeltaTime);
 	}
+}
+
+TMap<uint8, TSubclassOf<UGenericState>> UGenericStateMachine::GetAllState() const
+{
+	return TMap<uint8, TSubclassOf<UGenericState>>();
 }
 
 void UGenericStateMachine::ChangeState(uint8 NextStateId)
@@ -45,27 +50,13 @@ void UGenericStateMachine::ChangeState(uint8 NextStateId)
 	CurrentState->StateEnter(PreviousStateID);
 }
 
-void UGenericStateMachine::GetStates()
+void UGenericStateMachine::InstantiateStates()
 {
-	// const USmashCharacterSettings* CharacterSettings = GetDefault<USmashCharacterSettings>();
-	// for (TTuple<ESmashCharacterStateID, TSubclassOf<USmashCharacterState>> KvpOverridedState : Character->GetOverridedStatesMap())
-	// {
-	// 	AllStates.Emplace(KvpOverridedState.Key, NewObject<USmashCharacterState>(this, KvpOverridedState.Value));
-	// }
-	// for (TTuple<ESmashCharacterStateID, TSubclassOf<USmashCharacterState>> KvpState : CharacterSettings->CharacterStateClasses)
-	// {
-	// 	if (AllStates.Contains(KvpState.Key)) continue;
-	// 	AllStates.Emplace(KvpState.Key, NewObject<USmashCharacterState>(this, KvpState.Value));
-	// }
-	// TArray<UActorComponent*> FoundComponents = Character->K2_GetComponentsByClass(UGenericState::StaticClass());
-	// for (UActorComponent* StateComponent : FoundComponents)
-	// {
-	// 	UGenericState* State = Cast<UGenericState>(StateComponent);
-	// 	if (State == nullptr) continue;
-	// 	if (State->GetStateId() == EMovementStateId::None) continue;
-	// 	
-	// 	AllStates.Add(State->GetStateId(), State);
-	// }
+	for (TTuple<uint8, TSubclassOf<UGenericState>> KvpState : GetAllState())
+	{
+		if (AllStates.Contains(KvpState.Key)) continue;
+		AllStates.Emplace(KvpState.Key, NewObject<UGenericState>(this, KvpState.Value));
+	}
 }
 
 void UGenericStateMachine::InitStates()
@@ -74,4 +65,5 @@ void UGenericStateMachine::InitStates()
 	{
 		Kvp.Value->StateInit(this);
 	}
+	int a = 0;
 }
