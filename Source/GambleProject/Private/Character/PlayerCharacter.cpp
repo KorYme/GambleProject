@@ -4,6 +4,7 @@
 #include "Character/PlayerCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "GambleProject.h"
+#include "Camera/CameraComponent.h"
 #include "Character/PlayerInputData.h"
 #include "Character/MovementStates/MovementStateMachine.h"
 
@@ -15,6 +16,16 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	MovementStateMachine = CreateDefaultSubobject<UMovementStateMachine>(TEXT("MovementStateMachine"));
+	
+	// Create the Camera Component	
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
+	CameraComponent->SetupAttachment(GetMesh(), FName("head"));
+	CameraComponent->SetRelativeLocationAndRotation(FVector(-2.8f, 5.89f, 0.0f), FRotator(0.0f, 90.0f, -90.0f));
+	CameraComponent->bUsePawnControlRotation = true;
+	CameraComponent->bEnableFirstPersonFieldOfView = true;
+	CameraComponent->bEnableFirstPersonScale = true;
+	CameraComponent->FirstPersonFieldOfView = 90.0f;
+	CameraComponent->FirstPersonScale = 0.6f;
 }
 
 void APlayerCharacter::BeginPlay()

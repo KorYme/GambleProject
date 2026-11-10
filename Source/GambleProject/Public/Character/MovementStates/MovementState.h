@@ -17,10 +17,17 @@ class GAMBLEPROJECT_API UMovementState : public UGenericState
 	GENERATED_BODY()
 public:
 	virtual void StateInit(UGenericStateMachine* InitStateMachine) override;
+
+	virtual void StateEnter(EMovementStateId PreviousStateId);
 	
-	virtual void StateEnter(uint8 PreviousStateId) override;
+	virtual void StateExit(EMovementStateId NextStateId);
 	
-	virtual void StateExit(uint8 NextStateId) override;
+	virtual void StateTick(float DeltaTime) override;
+	
+private:
+	virtual void StateEnter(uint8 PreviousStateId) final override;
+	
+	virtual void StateExit(uint8 NextStateId) final override;
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
@@ -35,6 +42,27 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "StateMachine")
 	void OnStateExit(EMovementStateId NextStateId);
 	
-	UFUNCTION(BlueprintGetter, Category = "StateMachine")
+	UFUNCTION(BlueprintPure, Category = "StateMachine")
 	const UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void MoveCharacter();
+	
+	virtual void ApplyMovement();
+	
+	virtual bool CheckForIdle();
+	
+	bool IsMoving();
+	
+	virtual bool CheckForWalk();
+	
+	virtual bool CheckForRun();
+	
+	virtual bool CheckForGround();
+	
+	virtual bool CheckForJump();
+
+	virtual bool CheckForFall();
+	
+	virtual bool CheckForLanding();
 };

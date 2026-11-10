@@ -6,12 +6,13 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
-class UPlayerInputData;
+class UCameraComponent;
 class UInputComponent;
 class UEnhancedInputComponent;
-class UMovementStateMachine;
 class UInputAction;
 struct FInputActionValue;
+class UMovementStateMachine;
+class UPlayerInputData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputFloatEvent, const float, ValueFloat);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputVectorEvent, const FVector2D, ValueVector);
@@ -31,9 +32,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+	const UCameraComponent* GetCameraComponent() const { return CameraComponent; }
+	
 private:
 	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UMovementStateMachine> MovementStateMachine;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* CameraComponent;
 
 #pragma region INPUTS
 public:
@@ -43,7 +49,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Input Events")
 	FInputVectorEvent OnMoveInputEvent;
 	
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintPure, Category ="Input")
 	const FVector2D GetMoveInputDirection() const { return CurrentMoveInput; }
 	
 	UPROPERTY(BlueprintAssignable, Category = "Input Events")

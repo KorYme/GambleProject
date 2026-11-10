@@ -1,0 +1,18 @@
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Character/MovementStates/MovementState.h"
+#include "MovementStateWalk.generated.h"
+
+UCLASS()
+class GAMBLEPROJECT_API UMovementStateWalk : public UMovementState
+{
+	GENERATED_BODY()
+	
+public:
+	virtual void StateEnter(EMovementStateId PreviousStateId) override;
+	
+	virtual void StateTick(float DeltaTime) override;
+};

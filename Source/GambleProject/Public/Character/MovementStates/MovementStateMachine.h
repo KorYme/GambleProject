@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UMovementStateMachineData> MovementData;
 	
+	UFUNCTION(BlueprintGetter)
+	const EMovementStateId GetCurrentStateId() const { return (EMovementStateId)CurrentStateId; }
+
 protected:
 	virtual TMap<uint8, TSubclassOf<UGenericState>> GetAllState() const override;
 	

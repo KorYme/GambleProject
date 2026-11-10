@@ -8,7 +8,7 @@
 class APlayerCharacter;
 class UGenericStateMachine;
 
-UCLASS(Abstract, BluePrintable)
+UCLASS(Abstract, Blueprintable)
 class GAMBLEPROJECT_API UGenericState : public UObject
 {
 	GENERATED_BODY()
