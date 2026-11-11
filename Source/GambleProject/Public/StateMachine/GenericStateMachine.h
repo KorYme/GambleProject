@@ -26,7 +26,6 @@ protected:
 	UPROPERTY()
 	TMap<uint8, UGenericState*> AllStates;
 
-	UPROPERTY(BlueprintReadOnly)
 	uint8 CurrentStateId;
 
 	UPROPERTY()

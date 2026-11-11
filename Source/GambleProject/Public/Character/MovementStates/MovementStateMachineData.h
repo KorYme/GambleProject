@@ -13,9 +13,6 @@ class GAMBLEPROJECT_API UMovementStateMachineData : public UDataAsset
 public:
 	// Walk
 	UPROPERTY(EditAnywhere, Category = "Walk")
-	float GamepadDeadZone = 0.1f;
-	
-	UPROPERTY(EditAnywhere, Category = "Walk")
 	float WalkSpeed = 300.f;
 	
 	// Run

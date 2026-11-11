@@ -49,7 +49,7 @@ void UMovementState::StateTick(float DeltaTime)
 // State change checks
 bool UMovementState::IsMoving()
 {
-	return FMath::Abs(Character->GetMoveInputDirection().SquaredLength()) > GetMovementData()->GamepadDeadZone * GetMovementData()->GamepadDeadZone;
+	return Character->GetMoveInputDirection().SquaredLength() > 0;
 }
 
 void UMovementState::MoveCharacter_Implementation()

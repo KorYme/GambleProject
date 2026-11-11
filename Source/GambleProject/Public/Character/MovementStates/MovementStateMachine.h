@@ -23,7 +23,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UMovementStateMachineData> MovementData;
 	
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintCallable)
 	const EMovementStateId GetCurrentStateId() const { return (EMovementStateId)CurrentStateId; }
 
 protected:
