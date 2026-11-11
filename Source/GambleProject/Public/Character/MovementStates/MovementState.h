@@ -50,19 +50,17 @@ protected:
 	
 	virtual void ApplyMovement();
 	
-	virtual bool CheckForIdle();
-	
 	bool IsMoving();
 	
-	virtual bool CheckForWalk();
+	bool IsSprinting();
 	
-	virtual bool CheckForRun();
+	bool IsOnGround();
 	
-	virtual bool CheckForGround();
+	bool IsJumping();
 	
-	virtual bool CheckForJump();
-
-	virtual bool CheckForFall();
+	bool IsFalling();
 	
-	virtual bool CheckForLanding();
+	bool IsCrouching();
+	
+	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 };

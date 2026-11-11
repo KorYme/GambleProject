@@ -17,10 +17,22 @@ void UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 
 void UMovementStateWalk::StateTick(float DeltaTime)
 {
-	if (CheckForJump()) return;
-	if (CheckForFall()) return;
-	if (CheckForIdle()) return;
-	if (CheckForRun()) return;
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
+	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
+	if (ChangeStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
+	if (IsMoving())
+	{
+		if (IsSprinting())
+		{
+			StateMachine->ChangeState(EMovementStateId::Run);
+			return;
+		}
+	}
+	else
+	{
+		StateMachine->ChangeState(EMovementStateId::Idle);
+		return;
+	}
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }

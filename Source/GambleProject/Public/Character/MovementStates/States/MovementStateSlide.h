@@ -6,11 +6,15 @@
 #include "Character/MovementStates/MovementState.h"
 #include "MovementStateSlide.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class GAMBLEPROJECT_API UMovementStateSlide : public UMovementState
 {
 	GENERATED_BODY()
+
+public:
+	virtual void StateEnter(EMovementStateId PreviousStateId) override;
+	
+	virtual void StateExit(EMovementStateId NextStateId) override;
+	
+	virtual void StateTick(float DeltaTime) override;
 };

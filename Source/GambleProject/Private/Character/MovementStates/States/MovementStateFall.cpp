@@ -3,6 +3,7 @@
 
 #include "Character/MovementStates/States/MovementStateFall.h"
 #include "Character/PlayerCharacter.h"
+#include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -26,7 +27,7 @@ void UMovementStateFall::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateFall::StateTick(float DeltaTime)
 {
-	if (CheckForGround()) return;
+	if (ChangeStateIf(EMovementStateId::Idle, IsOnGround())) return;
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }

@@ -13,6 +13,8 @@ enum class EMovementStateId : uint8
 	Run,
 	Jump,
 	Fall,
+	CrouchIdle,
+	CrouchWalk,
 	Slide,
 	WallRun
 };

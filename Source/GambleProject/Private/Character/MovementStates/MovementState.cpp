@@ -5,7 +5,6 @@
 #include "Camera/CameraComponent.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachine.h"
-#include "Character/MovementStates/MovementStateMachineData.h"
 #include "Character/PlayerCharacter.h"
 #include "GameFramework/PawnMovementComponent.h"
 
@@ -68,71 +67,36 @@ void UMovementState::ApplyMovement()
 	Character->AddMovementInput(Direction, 1);
 }
 
-bool UMovementState::CheckForIdle()
+bool UMovementState::IsSprinting()
 {
-	if (!IsMoving())
-	{
-		StateMachine->ChangeState(EMovementStateId::Idle);
-		return true;
-	}
-	return false;
+	return Character->IsSprintInputPressed();
 }
 
-bool UMovementState::CheckForWalk()
+bool UMovementState::IsOnGround()
 {
-	if (IsMoving() && !Character->IsSprintInputPressed())
-	{
-		StateMachine->ChangeState(EMovementStateId::Walk);
-		return true;
-	}
-	return false;
+	return Character->GetMovementComponent()->IsMovingOnGround();
 }
 
-bool UMovementState::CheckForRun()
+bool UMovementState::IsJumping()
 {
-	if (IsMoving() && Character->IsSprintInputPressed())
-	{
-		StateMachine->ChangeState(EMovementStateId::Run);
-		return true;
-	}
-	return false;
+	return Character->IsJumpInputPressed();
 }
 
-bool UMovementState::CheckForGround()
+bool UMovementState::IsFalling()
 {
-	if (Character && StateMachine && Character->GetMovementComponent()->IsMovingOnGround())
-	{
-		StateMachine->ChangeState(EMovementStateId::Idle);
-		return true;
-	}
-	return false;
+	return Character->GetMovementComponent()->IsFalling();
 }
 
-bool UMovementState::CheckForJump()
+bool UMovementState::IsCrouching()
 {
-	if (Character->IsJumpInputPressed())
-	{
-		StateMachine->ChangeState(EMovementStateId::Jump);
-		return true;
-	}
-	return false;
+	return Character->IsCrouchInputPressed();
 }
 
-bool UMovementState::CheckForFall()
+bool UMovementState::ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState)
 {
-	if (Character->GetMovementComponent()->IsFalling())
+	if (ShouldChangeState)
 	{
-		StateMachine->ChangeState(EMovementStateId::Fall);
-		return true;
-	}
-	return false;
-}
-
-bool UMovementState::CheckForLanding()
-{
-	if (Character->GetMovementComponent()->IsMovingOnGround())
-	{
-		StateMachine->ChangeState(EMovementStateId::Idle);
+		StateMachine->ChangeState(NewStateId);
 		return true;
 	}
 	return false;

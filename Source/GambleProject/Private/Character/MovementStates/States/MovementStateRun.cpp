@@ -3,6 +3,7 @@
 
 #include "Character/MovementStates/States/MovementStateRun.h"
 #include "Character/PlayerCharacter.h"
+#include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -16,10 +17,22 @@ void UMovementStateRun::StateEnter(EMovementStateId PreviousStateId)
 
 void UMovementStateRun::StateTick(float DeltaTime)
 {
-	if (CheckForJump()) return;
-	if (CheckForFall()) return;
-	if (CheckForIdle()) return;
-	if (CheckForWalk()) return;
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
+	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
+	if (ChangeStateIf(EMovementStateId::Slide, IsCrouching())) return;
+	if (IsMoving())
+	{
+		if (!IsSprinting())
+		{
+			StateMachine->ChangeState(EMovementStateId::Run);
+			return;
+		}
+	}
+	else
+	{
+		StateMachine->ChangeState(EMovementStateId::Idle);
+		return;
+	}
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }

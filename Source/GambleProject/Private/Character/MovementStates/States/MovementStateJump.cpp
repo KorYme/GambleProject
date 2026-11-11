@@ -32,7 +32,7 @@ void UMovementStateJump::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateJump::StateTick(float DeltaTime)
 {
-	if (CheckForGround()) return;
+	if (ChangeStateIf(EMovementStateId::Idle, IsOnGround())) return;
 	JumpTimer -= DeltaTime;
 	if (Character->GetCharacterMovement()->Velocity.Z < 0.f)
 	{

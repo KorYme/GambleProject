@@ -41,4 +41,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Fall")
 	float FallAirControl = 1.f;
+	
+	// Crouch
+	UPROPERTY(EditAnywhere, Category = "Crouch")
+	float CrouchSpeed = 200.f;
+
+	// SlideSpeed
+	UPROPERTY(EditAnywhere, Category = "Slide")
+	float SlideSpeed = 400.f;
 };

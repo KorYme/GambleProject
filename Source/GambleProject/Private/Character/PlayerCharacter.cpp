@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/PlayerInputData.h"
 #include "Character/MovementStates/MovementStateMachine.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -19,7 +20,8 @@ APlayerCharacter::APlayerCharacter()
 	
 	// Create the Camera Component	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
-	CameraComponent->SetupAttachment(GetMesh(), FName("head"));
+	// CameraComponent->SetupAttachment(GetMesh(), FName("head"));
+	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocationAndRotation(FVector(-2.8f, 5.89f, 0.0f), FRotator(0.0f, 90.0f, -90.0f));
 	CameraComponent->bUsePawnControlRotation = true;
 	CameraComponent->bEnableFirstPersonFieldOfView = true;
