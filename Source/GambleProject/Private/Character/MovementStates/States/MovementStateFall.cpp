@@ -11,8 +11,9 @@ void UMovementStateFall::StateEnter(EMovementStateId PreviousStateId)
 	if (Character)
 	{
 		Character->GetCharacterMovement()->AirControl = GetMovementData()->FallAirControl;
-		Character->GetCharacterMovement()->GravityScale *= GetMovementData()->FallGravityScale;
-		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->FallHorizontalMoveSpeed;
+		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->FallMoveSpeed;
+		Character->GetCharacterMovement()->GravityScale = 2 * GetMovementData()->JumpMaxHeight / ((GetMovementData()->FallDuration / 2) 
+			* (GetMovementData()->FallDuration / 2) * 981);
 	}
 	Super::StateEnter(PreviousStateId);
 }

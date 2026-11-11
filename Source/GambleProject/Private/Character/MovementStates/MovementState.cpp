@@ -21,11 +21,6 @@ void UMovementState::StateInit(UGenericStateMachine* InitStateMachine)
 
 void UMovementState::StateEnter(EMovementStateId PreviousStateId)
 {
-	if(GEngine)
-	{
-		FString DisplayName = UEnum::GetValueAsString(StateMachine->GetCurrentStateId());
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, DisplayName);
-	}
 }
 
 void UMovementState::StateExit(EMovementStateId NextStateId)

@@ -31,5 +31,8 @@ protected:
 	
 private:
 	UPROPERTY(Config, EditAnywhere, Category = "States")
+	bool IsStateDebugDisplayed;
+	
+	UPROPERTY(Config, EditAnywhere, Category = "States")
 	TMap<EMovementStateId, TSubclassOf<UMovementState>> CharacterStateClasses;
 };

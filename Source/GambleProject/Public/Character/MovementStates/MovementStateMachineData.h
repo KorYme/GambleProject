@@ -24,24 +24,24 @@ public:
 	
 	// Jump
 	UPROPERTY(EditAnywhere, Category = "Jump")
-	float JumpWalkSpeed = 400.f;
-
-	UPROPERTY(EditAnywhere, Category = "Jump")
-	float JumpMaxHeight = 100.f;
+	float JumpMoveSpeed = 400.f;
 
 	UPROPERTY(EditAnywhere, Category = "Jump")
 	float JumpDuration = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Jump")
+	float JumpMaxHeight = 100.f;
 
 	UPROPERTY(EditAnywhere, Category = "Jump")
 	float JumpAirControl = 1.f;
 	
 	// Fall
 	UPROPERTY(EditAnywhere, Category = "Fall")
+	float FallMoveSpeed = 400.f;
+
+	UPROPERTY(EditAnywhere, Category = "Fall")
+	float FallDuration = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Fall")
 	float FallAirControl = 1.f;
-
-	UPROPERTY(EditAnywhere, Category = "Fall")
-	float FallGravityScale = 3.f;
-
-	UPROPERTY(EditAnywhere, Category = "Fall")
-	float FallHorizontalMoveSpeed = 400.f;
 };

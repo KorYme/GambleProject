@@ -12,7 +12,7 @@ void UMovementStateJump::StateEnter(EMovementStateId PreviousStateId)
 	if (Character)
 	{
 		Character->GetCharacterMovement()->AirControl = GetMovementData()->JumpAirControl;
-		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->JumpWalkSpeed;
+		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->JumpMoveSpeed;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->GetCharacterMovement()->JumpZVelocity = 4 * GetMovementData()->JumpMaxHeight / GetMovementData()->JumpDuration;
 		Character->GetCharacterMovement()->GravityScale = 2 * GetMovementData()->JumpMaxHeight / ((GetMovementData()->JumpDuration / 2) 
