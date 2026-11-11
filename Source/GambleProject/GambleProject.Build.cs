@@ -6,7 +6,8 @@ public class GambleProject : ModuleRules
 {
 	public GambleProject(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.NoPCHs;
+		OptimizeCode = CodeOptimization.Never;
 
 		PublicDependencyModuleNames.AddRange(new string[] {
 			"Core",
