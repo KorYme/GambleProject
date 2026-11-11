@@ -6,6 +6,7 @@
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachine.h"
 #include "Character/PlayerCharacter.h"
+#include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 void UMovementState::StateInit(UGenericStateMachine* InitStateMachine)
@@ -90,6 +91,13 @@ bool UMovementState::IsFalling()
 bool UMovementState::IsCrouching()
 {
 	return Character->IsCrouchInputPressed();
+}
+
+bool UMovementState::IsSliding()
+{
+	float velocity = Character->GetVelocity().Length();
+	float inputDir = Character->GetMoveInputDirection().Y;
+	return IsCrouching() && velocity > GetMovementData()->MinimumSpeedToSlide && inputDir > 0;
 }
 
 bool UMovementState::ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState)

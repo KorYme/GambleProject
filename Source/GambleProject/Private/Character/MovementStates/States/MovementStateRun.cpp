@@ -19,7 +19,7 @@ void UMovementStateRun::StateTick(float DeltaTime)
 {
 	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
 	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
-	if (ChangeStateIf(EMovementStateId::Slide, IsCrouching())) return;
+	if (ChangeStateIf(EMovementStateId::Slide, IsSliding())) return;
 	if (IsMoving())
 	{
 		if (!IsSprinting())

@@ -2,6 +2,8 @@
 
 
 #include "Notify/AttackTriggerNotify.h"
+
+#include "Components/SkeletalMeshComponent.h"
 #include "Notify/HitTriggerNotifiable.h"
 
 void UAttackTriggerNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,

@@ -48,5 +48,11 @@ public:
 
 	// SlideSpeed
 	UPROPERTY(EditAnywhere, Category = "Slide")
-	float SlideSpeed = 400.f;
+	float SlideSpeedMultiplier = 1.2f;
+	
+	UPROPERTY(EditAnywhere, Category = "Slide")
+	float MinimumSpeedToSlide = 500.f;
+	
+	UPROPERTY(EditAnywhere, Category = "Slide", meta= (ClampMin=0.1f))
+	float SlideSpeedLossPerSecond = 200.f;
 };

@@ -27,6 +27,16 @@ void UMovementStateFall::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateFall::StateTick(float DeltaTime)
 {
+	if (IsOnGround())
+	{
+		if (IsSliding())
+		{
+			StateMachine->ChangeState(EMovementStateId::Slide);
+			return;
+		}
+		StateMachine->ChangeState(EMovementStateId::Idle);
+		return;
+	}
 	if (ChangeStateIf(EMovementStateId::Idle, IsOnGround())) return;
 	MoveCharacter();
 	Super::StateTick(DeltaTime);

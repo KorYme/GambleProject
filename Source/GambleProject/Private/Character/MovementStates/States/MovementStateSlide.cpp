@@ -11,7 +11,7 @@ void UMovementStateSlide::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (Character)
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->SlideSpeed;
+		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = Character->GetVelocity().Length() * GetMovementData()->SlideSpeedMultiplier;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->Crouch();
 	}
@@ -39,7 +39,7 @@ void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
 void UMovementStateSlide::StateTick(float DeltaTime)
 {
 	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
-	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
+	Character->GetCharacterMovement()->MaxWalkSpeedCrouched -= GetMovementData()->SlideSpeedLossPerSecond * DeltaTime;
 	if (!IsCrouching())
 	{
 		StateMachine->ChangeState(EMovementStateId::Run);
@@ -48,6 +48,11 @@ void UMovementStateSlide::StateTick(float DeltaTime)
 	else if (!IsMoving())
 	{
 		StateMachine->ChangeState(EMovementStateId::CrouchIdle);
+		return;
+	}
+	else if (Character->GetCharacterMovement()->MaxWalkSpeedCrouched <= GetMovementData()->CrouchSpeed)
+	{
+		StateMachine->ChangeState(EMovementStateId::CrouchWalk);
 		return;
 	}
 	MoveCharacter();

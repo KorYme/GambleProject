@@ -3,6 +3,7 @@
 
 #include "Character/MovementStates/MovementStateMachine.h"
 #include "Character/MovementStates/MovementState.h"
+#include "Engine/Engine.h"
 
 
 void UMovementStateMachine::ChangeState(EMovementStateId NewStateId)

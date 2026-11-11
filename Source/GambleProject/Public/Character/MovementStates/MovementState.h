@@ -62,5 +62,7 @@ protected:
 	
 	bool IsCrouching();
 	
+	bool IsSliding();
+	
 	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 };

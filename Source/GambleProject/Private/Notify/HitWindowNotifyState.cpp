@@ -2,6 +2,8 @@
 
 
 #include "Notify/HitWindowNotifyState.h"
+
+#include "Components/SkeletalMeshComponent.h"
 #include "Notify/HitWindowNotifiable.h"
 
 void UHitWindowNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,

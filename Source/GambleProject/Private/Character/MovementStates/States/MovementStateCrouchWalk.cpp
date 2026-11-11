@@ -11,7 +11,7 @@ void UMovementStateCrouchWalk::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (Character)
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->CrouchSpeed;
+		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = GetMovementData()->CrouchSpeed;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->Crouch();
 	}

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
+#include "Components/ActorComponent.h"
 #include "GenericStateMachine.generated.h"
 
 class UGenericState;
