@@ -14,5 +14,7 @@ class GAMBLEPROJECT_API UMovementStateWalk : public UMovementState
 public:
 	virtual void StateEnter(EMovementStateId PreviousStateId) override;
 	
+	virtual void StateExit(EMovementStateId NextStateId) override;
+	
 	virtual void StateTick(float DeltaTime) override;
 };

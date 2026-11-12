@@ -17,7 +17,7 @@ class GAMBLEPROJECT_API UGenericStateMachine : public UActorComponent
 public:
 	void Init(APlayerCharacter* InCharacter);
 	
-	void StateMachineTick(float DeltaTime);
+	virtual void StateMachineTick(float DeltaTime);
 	
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<APlayerCharacter> Character;

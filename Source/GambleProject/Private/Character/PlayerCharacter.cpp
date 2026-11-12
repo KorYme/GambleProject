@@ -34,7 +34,7 @@ void APlayerCharacter::BeginPlay()
 {
 	MovementStateMachine->Init(this);
 	Super::BeginPlay();
-}
+}	
 
 void APlayerCharacter::Tick(float DeltaTime)
 {

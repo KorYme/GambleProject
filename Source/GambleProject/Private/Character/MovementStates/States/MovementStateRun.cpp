@@ -24,7 +24,7 @@ void UMovementStateRun::StateTick(float DeltaTime)
 	{
 		if (!IsSprinting())
 		{
-			StateMachine->ChangeState(EMovementStateId::Run);
+			StateMachine->ChangeState(EMovementStateId::Walk);
 			return;
 		}
 	}

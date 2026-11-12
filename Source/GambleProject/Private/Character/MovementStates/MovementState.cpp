@@ -68,6 +68,36 @@ void UMovementState::ApplyMovement()
 	Character->AddMovementInput(Direction, 1);
 }
 
+bool UMovementState::ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState)
+{
+	if (ShouldChangeState)
+	{
+		StateMachine->ChangeState(NewStateId);
+		return true;
+	}
+	return false;
+}
+
+void UMovementState::OnInputSprintTriggered(const bool IsSprinting)
+{
+	ChangeStateIf(EMovementStateId::Run, IsSprinting && IsMoving());
+}
+
+void UMovementState::OnInputCrouchTriggered(const bool IsCrouching)
+{
+	if (IsCrouching)
+	{
+		if (!IsMoving())
+		{
+			StateMachine->ChangeState(EMovementStateId::CrouchIdle);
+		}
+		else
+		{
+			StateMachine->ChangeState(EMovementStateId::CrouchWalk);
+		}
+	}
+}
+
 bool UMovementState::IsSprinting()
 {
 	return Character->IsSprintInputPressed();
@@ -98,14 +128,4 @@ bool UMovementState::IsSliding()
 	float velocity = Character->GetVelocity().Length();
 	float inputDir = Character->GetMoveInputDirection().Y;
 	return IsCrouching() && velocity > GetMovementData()->MinimumSpeedToSlide && inputDir > 0;
-}
-
-bool UMovementState::ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState)
-{
-	if (ShouldChangeState)
-	{
-		StateMachine->ChangeState(NewStateId);
-		return true;
-	}
-	return false;
 }

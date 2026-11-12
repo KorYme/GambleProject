@@ -92,7 +92,7 @@ private:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
 	void OnInputMove(const FInputActionValue& InputActionValue);
-		
+
 	FVector2D CurrentMoveInput;
 	
 	void OnInputAim(const FInputActionValue& InputActionValue);

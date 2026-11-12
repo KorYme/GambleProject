@@ -11,8 +11,16 @@ void UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 {
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->WalkSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	Character->OnSprintInputEvent.AddDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
 	
 	Super::StateEnter(PreviousStateId);
+}
+
+void UMovementStateWalk::StateExit(EMovementStateId NextStateId)
+{
+	Character->OnSprintInputEvent.RemoveDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
+	
+	Super::StateExit(NextStateId);
 }
 
 void UMovementStateWalk::StateTick(float DeltaTime)

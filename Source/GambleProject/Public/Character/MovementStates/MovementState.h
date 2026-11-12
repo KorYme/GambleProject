@@ -43,12 +43,20 @@ protected:
 	void OnStateExit(EMovementStateId NextStateId);
 	
 	UFUNCTION(BlueprintPure, Category = "StateMachine")
-	const UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
+	UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void MoveCharacter();
 	
 	virtual void ApplyMovement();
+	
+	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
+	
+	UFUNCTION()
+	virtual void OnInputSprintTriggered(const bool IsSprinting);
+	
+	UFUNCTION()
+	virtual void OnInputCrouchTriggered(const bool IsCrouching);
 	
 	bool IsMoving();
 	
@@ -63,6 +71,4 @@ protected:
 	bool IsCrouching();
 	
 	bool IsSliding();
-	
-	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 };

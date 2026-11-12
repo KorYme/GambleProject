@@ -20,7 +20,6 @@ void AGambleProjectPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
 	// only spawn touch controls on local player controllers
 	if (SVirtualJoystick::ShouldDisplayTouchInterface() && IsLocalPlayerController())
 	{
@@ -31,13 +30,11 @@ void AGambleProjectPlayerController::BeginPlay()
 		{
 			// add the controls to the player screen
 			MobileControlsWidget->AddToPlayerScreen(0);
-
-		} else {
-
+		} 
+		else 
+		{
 			UE_LOG(LogGambleProject, Error, TEXT("Could not spawn mobile controls widget."));
-
 		}
-
 	}
 }
 
@@ -48,7 +45,7 @@ void AGambleProjectPlayerController::SetupInputComponent()
 	// only add IMCs for local player controllers
 	if (IsLocalPlayerController())
 	{
-		// Add Input Mapping Context
+		// Add Input Mapping Cozntext
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
 			for (UInputMappingContext* CurrentContext : DefaultMappingContexts)
@@ -66,5 +63,4 @@ void AGambleProjectPlayerController::SetupInputComponent()
 			}
 		}
 	}
-	
 }

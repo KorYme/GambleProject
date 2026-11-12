@@ -20,6 +20,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeState(EMovementStateId NewStateId);
 	
+	virtual void StateMachineTick(float DeltaTime) override;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UMovementStateMachineData> MovementData;
 	
