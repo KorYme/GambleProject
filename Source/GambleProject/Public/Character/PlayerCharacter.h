@@ -10,83 +10,11 @@ class UCameraComponent;
 class UInputComponent;
 class UEnhancedInputComponent;
 class UInputAction;
-struct FInputActionValue;
 class UMovementStateMachine;
 class UPlayerInputData;
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputFloatEvent, const float, ValueFloat);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputVectorEvent, const FVector2D, ValueVector);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputBoolEvent, const bool, ValueBool);
-
-UCLASS()
-class GAMBLEPROJECT_API UInputBoolValue : public UObject
-{
-	GENERATED_BODY()
-	
-public:
-	UFUNCTION(BlueprintPure, Category = "Input Value")
-	const bool GetValue() const { return Value; }
-	
-	UPROPERTY(BlueprintAssignable)
-	FInputBoolEvent OnInputEvent;
-	
-	UFUNCTION(BlueprintCallable)
-	void SetValue(bool NewValue)
-	{
-		TimeSinceLastTriggered = 0.f;
-		IsConsumed = false;
-		Value = NewValue;
-		OnInputEvent.Broadcast(Value);
-	}
-	
-	void Tick(float DeltaTime) { TimeSinceLastTriggered += DeltaTime; }
-	
-	void Consume() { IsConsumed = true; }
-	
-private:
-	bool Value = false;
-	
-	float TimeSinceLastTriggered = 1000.f;
-	
-	bool IsConsumed = true;
-};
-
-UCLASS()
-class GAMBLEPROJECT_API UInputVectorValue : public UObject
-{
-	GENERATED_BODY()
-	
-public:
-	UFUNCTION(BlueprintPure, Category = "Input Value")
-	const FVector2D GetValue() const { return Value; }
-	
-	UPROPERTY(BlueprintAssignable, Category = "Input Value")
-	FInputVectorEvent OnInputEvent;
-	
-	UFUNCTION(BlueprintCallable, Category = "Input Value")
-	void Consume()
-	{
-		IsConsumed = true;
-	}
-	
-	UFUNCTION(BlueprintCallable, Category = "Input Value")
-	void SetValue(FVector2D NewValue)
-	{
-		TimeSinceLastTriggered = 0.f;
-		IsConsumed = false;
-		Value = NewValue;
-		OnInputEvent.Broadcast(Value);
-	}
-	
-	void Tick(float DeltaTime) { TimeSinceLastTriggered += DeltaTime; }
-	
-private:
-	FVector2D Value = FVector2D::ZeroVector;
-	
-	float TimeSinceLastTriggered = 1000.f;
-	
-	bool IsConsumed = true;
-};
+class UInputBoolValue;
+class UInputVectorValue;
+struct FInputActionValue;
 
 UCLASS()
 class GAMBLEPROJECT_API APlayerCharacter : public ACharacter

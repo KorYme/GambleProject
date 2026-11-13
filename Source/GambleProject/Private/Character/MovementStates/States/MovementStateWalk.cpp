@@ -6,6 +6,7 @@
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Inputs/InputValues.h"
 
 void UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 {

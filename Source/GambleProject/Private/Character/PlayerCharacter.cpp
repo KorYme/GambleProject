@@ -5,9 +5,10 @@
 #include "EnhancedInputComponent.h"
 #include "GambleProject.h"
 #include "Camera/CameraComponent.h"
-#include "Character/PlayerInputData.h"
+#include "Inputs/PlayerInputData.h"
 #include "Character/MovementStates/MovementStateMachine.h"
 #include "Components/CapsuleComponent.h"
+#include "Inputs/InputValues.h"
 
 
 // Sets default values
