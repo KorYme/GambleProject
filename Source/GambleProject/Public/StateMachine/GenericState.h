@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GenericState.generated.h"
 
+class AGambleProjectPlayerController;
 class APlayerCharacter;
 class UGenericStateMachine;
 
@@ -28,4 +29,7 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
 	TObjectPtr<APlayerCharacter> Character;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
+	TObjectPtr<AGambleProjectPlayerController> Controller;
 };

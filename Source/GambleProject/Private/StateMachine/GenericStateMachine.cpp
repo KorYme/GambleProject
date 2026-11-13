@@ -5,9 +5,10 @@
 #include "StateMachine/GenericState.h"
 #include "Character/PlayerCharacter.h"
 
-void UGenericStateMachine::Init(APlayerCharacter* InCharacter)
+void UGenericStateMachine::Init(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController)
 {
 	this->Character = InCharacter;
+	this->Controller = InController;
 	InstantiateStates();
 	InitStates();
 }

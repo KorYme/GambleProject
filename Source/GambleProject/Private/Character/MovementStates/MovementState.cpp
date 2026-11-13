@@ -6,6 +6,7 @@
 #include "Character/MovementStates/MovementStateMachine.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
+#include "Controller/GambleProjectPlayerController.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Inputs/InputValues.h"
 
@@ -49,7 +50,7 @@ void UMovementState::StateTick(float DeltaTime)
 // State change checks
 bool UMovementState::IsMoving()
 {
-	return Character->MovementInput->GetValue().SquaredLength() > 0;
+	return Controller->MovementInput->GetValue().SquaredLength() > 0;
 }
 
 void UMovementState::MoveCharacter_Implementation()
@@ -60,7 +61,7 @@ void UMovementState::MoveCharacter_Implementation()
 void UMovementState::ApplyMovement()
 {
 	if (!Character) return;
-	FVector2D InputMove = Character->MovementInput->GetValue();
+	FVector2D InputMove = Controller->MovementInput->GetValue();
 	FVector2D Direction2D = (FVector2D)Character->GetCameraComponent()->GetForwardVector() * InputMove.Y 
 		+ (FVector2D)Character->GetCameraComponent()->GetRightVector() * InputMove.X;
 	Direction2D.Normalize();
@@ -100,7 +101,7 @@ void UMovementState::OnInputCrouchTriggered(const bool IsCrouching)
 
 bool UMovementState::IsSprinting()
 {
-	return Character->SprintInput->GetValue();
+	return Controller->SprintInput->GetValue();
 }
 
 bool UMovementState::IsOnGround()
@@ -110,7 +111,7 @@ bool UMovementState::IsOnGround()
 
 bool UMovementState::IsJumping()
 {
-	return Character->JumpInput->GetValue();
+	return Controller->JumpInput->GetValue();
 }
 
 bool UMovementState::IsFalling()
@@ -120,12 +121,12 @@ bool UMovementState::IsFalling()
 
 bool UMovementState::IsCrouching()
 {
-	return Character->CrouchInput->GetValue();
+	return Controller->CrouchInput->GetValue();
 }
 
 bool UMovementState::IsSliding()
 {
 	float velocity = Character->GetVelocity().Length();
-	float inputDir = Character->MovementInput->GetValue().Y;
+	float inputDir = Controller->MovementInput->GetValue().Y;
 	return IsCrouching() && velocity > GetMovementData()->MinimumSpeedToSlide && inputDir > 0;
 }

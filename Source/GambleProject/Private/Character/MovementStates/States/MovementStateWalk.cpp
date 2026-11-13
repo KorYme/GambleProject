@@ -7,20 +7,20 @@
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Inputs/InputValues.h"
+#include "Controller/GambleProjectPlayerController.h"
 
 void UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 {
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->WalkSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-	Character->SprintInput->OnInputEvent.AddDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
+	Controller->SprintInput->OnInputEvent.AddDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
 	
 	Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateWalk::StateExit(EMovementStateId NextStateId)
 {
-	Character->SprintInput->OnInputEvent.RemoveDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
-	
+	Controller->SprintInput->OnInputEvent.RemoveDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
 	Super::StateExit(NextStateId);
 }
 

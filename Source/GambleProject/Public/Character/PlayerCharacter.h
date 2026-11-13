@@ -14,6 +14,7 @@ class UMovementStateMachine;
 class UPlayerInputData;
 class UInputBoolValue;
 class UInputVectorValue;
+class AGambleProjectPlayerController;
 struct FInputActionValue;
 
 UCLASS()
@@ -38,52 +39,7 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* CameraComponent;
-
-#pragma region INPUTS
-public:
-	UPROPERTY(EditDefaultsOnly, Category ="Inputs")
-	TObjectPtr<UPlayerInputData> InputData;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputVectorValue* MovementInput;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputVectorValue* AimInput;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputBoolValue* JumpInput;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputBoolValue* SprintInput;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputBoolValue* CrouchInput;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputBoolValue* FireInput;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
-	UInputBoolValue* RerollInput;
-	
-private:
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-	
-	void InputValuesInit();
-	
-	void InputValuesTick(float DeltaTime);
-	
-	void OnInputMove(const FInputActionValue& InputActionValue);
-	
-	void OnInputAim(const FInputActionValue& InputActionValue);
-	
-	void OnInputJump(const FInputActionValue& InputActionValue);
-	
-	void OnInputSprint(const FInputActionValue& InputActionValue);
-	
-	void OnInputCrouch(const FInputActionValue& InputActionValue);
-	
-	void OnInputFire(const FInputActionValue& InputActionValue);
-	
-	void OnInputReroll(const FInputActionValue& InputActionValue);
-#pragma endregion
+	UPROPERTY(BlueprintReadOnly, Category="Gamble Project Controller", meta = (AllowPrivateAccess = "true"))
+	AGambleProjectPlayerController* PlayerController;
 };

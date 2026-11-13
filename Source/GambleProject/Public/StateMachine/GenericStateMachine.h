@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "GenericStateMachine.generated.h"
 
+class AGambleProjectPlayerController;
 class UGenericState;
 class APlayerCharacter;
 
@@ -15,12 +16,15 @@ class GAMBLEPROJECT_API UGenericStateMachine : public UActorComponent
 	GENERATED_BODY()
 	
 public:
-	void Init(APlayerCharacter* InCharacter);
+	void Init(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController);
 	
 	virtual void StateMachineTick(float DeltaTime);
 	
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<APlayerCharacter> Character;
+	
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<AGambleProjectPlayerController> Controller;
 	
 protected:
 	UPROPERTY()

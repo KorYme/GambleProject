@@ -7,6 +7,7 @@
 void UGenericState::StateInit(UGenericStateMachine* InitStateMachine)
 {
 	Character = InitStateMachine->Character;
+	Controller = InitStateMachine->Controller;
 }
 
 void UGenericState::StateEnter(uint8 PreviousStateId)
