@@ -32,6 +32,7 @@ APlayerCharacter::APlayerCharacter()
 
 void APlayerCharacter::BeginPlay()
 {
+	InputValuesInit();
 	MovementStateMachine->Init(this);
 	Super::BeginPlay();
 }	
@@ -39,6 +40,7 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	MovementStateMachine->StateMachineTick(DeltaTime);
+	InputValuesTick(DeltaTime);
 	Super::Tick(DeltaTime);
 }
 
@@ -75,49 +77,64 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+void APlayerCharacter::InputValuesInit()
+{
+	MovementInput = NewObject<UInputVectorValue>();
+	AimInput = NewObject<UInputVectorValue>();
+	JumpInput = NewObject<UInputBoolValue>();
+	SprintInput = NewObject<UInputBoolValue>();
+	CrouchInput = NewObject<UInputBoolValue>();
+	FireInput = NewObject<UInputBoolValue>();
+	RerollInput = NewObject<UInputBoolValue>();
+}
+
+void APlayerCharacter::InputValuesTick(float DeltaTime)
+{
+	MovementInput->Tick(DeltaTime);
+	AimInput->Tick(DeltaTime);
+	JumpInput->Tick(DeltaTime);
+	SprintInput->Tick(DeltaTime);
+	CrouchInput->Tick(DeltaTime);
+	FireInput->Tick(DeltaTime);
+	RerollInput->Tick(DeltaTime);
+}
+
 void APlayerCharacter::OnInputMove(const FInputActionValue& InputActionValue)
 {
-	CurrentMoveInput = InputActionValue.Get<FVector2D>();
-	OnMoveInputEvent.Broadcast(CurrentMoveInput);
+	MovementInput->SetValue(InputActionValue.Get<FVector2D>());
 }
 
 void APlayerCharacter::OnInputAim(const FInputActionValue& InputActionValue)
 {
-	CurrentAimInput = InputActionValue.Get<FVector2D>();
 	if (GetController())
 	{
-		AddControllerYawInput(CurrentAimInput.X);
-		AddControllerPitchInput(CurrentAimInput.Y);
+		AddControllerYawInput(AimInput->GetValue().X);
+		AddControllerPitchInput(AimInput->GetValue().Y);
 	}
-	OnAimInputEvent.Broadcast(CurrentAimInput);
+	AimInput->SetValue(InputActionValue.Get<FVector2D>());
 }
 
 void APlayerCharacter::OnInputJump(const FInputActionValue& InputActionValue)
 {
-	CurrentJumpInput = InputActionValue.Get<bool>();
-	OnJumpInputEvent.Broadcast(CurrentJumpInput);
+	JumpInput->SetValue(InputActionValue.Get<bool>());
 }
 
 void APlayerCharacter::OnInputSprint(const FInputActionValue& InputActionValue)
 {
-	CurrentSprintInput = InputActionValue.Get<bool>();
-	OnSprintInputEvent.Broadcast(CurrentSprintInput);
+	SprintInput->SetValue(InputActionValue.Get<bool>());
 }
 
 void APlayerCharacter::OnInputCrouch(const FInputActionValue& InputActionValue)
 {
-	CurrentCrouchInput = InputActionValue.Get<bool>();
-	OnCrouchInputEvent.Broadcast(CurrentCrouchInput);
+	CrouchInput->SetValue(InputActionValue.Get<bool>());
 }
 
 void APlayerCharacter::OnInputFire(const FInputActionValue& InputActionValue)
 {
-	CurrentFireInput = InputActionValue.Get<bool>();
-	OnFireInputEvent.Broadcast(CurrentFireInput);
+	FireInput->SetValue(InputActionValue.Get<bool>());
 }
 
 void APlayerCharacter::OnInputReroll(const FInputActionValue& InputActionValue)
 {
-	CurrentRerollInput = InputActionValue.Get<bool>();
-	OnRerollInputEvent.Broadcast(CurrentRerollInput);
+	RerollInput->SetValue(InputActionValue.Get<bool>());
 }

@@ -49,7 +49,7 @@ void UMovementState::StateTick(float DeltaTime)
 // State change checks
 bool UMovementState::IsMoving()
 {
-	return Character->GetMoveInputDirection().SquaredLength() > 0;
+	return Character->MovementInput->GetValue().SquaredLength() > 0;
 }
 
 void UMovementState::MoveCharacter_Implementation()
@@ -60,7 +60,7 @@ void UMovementState::MoveCharacter_Implementation()
 void UMovementState::ApplyMovement()
 {
 	if (!Character) return;
-	FVector2D InputMove = Character->GetMoveInputDirection();
+	FVector2D InputMove = Character->MovementInput->GetValue();
 	FVector2D Direction2D = (FVector2D)Character->GetCameraComponent()->GetForwardVector() * InputMove.Y 
 		+ (FVector2D)Character->GetCameraComponent()->GetRightVector() * InputMove.X;
 	Direction2D.Normalize();
@@ -100,7 +100,7 @@ void UMovementState::OnInputCrouchTriggered(const bool IsCrouching)
 
 bool UMovementState::IsSprinting()
 {
-	return Character->IsSprintInputPressed();
+	return Character->SprintInput->GetValue();
 }
 
 bool UMovementState::IsOnGround()
@@ -110,7 +110,7 @@ bool UMovementState::IsOnGround()
 
 bool UMovementState::IsJumping()
 {
-	return Character->IsJumpInputPressed();
+	return Character->JumpInput->GetValue();
 }
 
 bool UMovementState::IsFalling()
@@ -120,12 +120,12 @@ bool UMovementState::IsFalling()
 
 bool UMovementState::IsCrouching()
 {
-	return Character->IsCrouchInputPressed();
+	return Character->CrouchInput->GetValue();
 }
 
 bool UMovementState::IsSliding()
 {
 	float velocity = Character->GetVelocity().Length();
-	float inputDir = Character->GetMoveInputDirection().Y;
+	float inputDir = Character->MovementInput->GetValue().Y;
 	return IsCrouching() && velocity > GetMovementData()->MinimumSpeedToSlide && inputDir > 0;
 }

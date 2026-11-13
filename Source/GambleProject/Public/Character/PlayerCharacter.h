@@ -19,6 +19,76 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputVectorEvent, const FVector2D, 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInputBoolEvent, const bool, ValueBool);
 
 UCLASS()
+class GAMBLEPROJECT_API UInputBoolValue : public UObject
+{
+	GENERATED_BODY()
+	
+public:
+	UFUNCTION(BlueprintPure, Category = "Input Value")
+	const bool GetValue() const { return Value; }
+	
+	UPROPERTY(BlueprintAssignable)
+	FInputBoolEvent OnInputEvent;
+	
+	UFUNCTION(BlueprintCallable)
+	void SetValue(bool NewValue)
+	{
+		TimeSinceLastTriggered = 0.f;
+		IsConsumed = false;
+		Value = NewValue;
+		OnInputEvent.Broadcast(Value);
+	}
+	
+	void Tick(float DeltaTime) { TimeSinceLastTriggered += DeltaTime; }
+	
+	void Consume() { IsConsumed = true; }
+	
+private:
+	bool Value = false;
+	
+	float TimeSinceLastTriggered = 1000.f;
+	
+	bool IsConsumed = true;
+};
+
+UCLASS()
+class GAMBLEPROJECT_API UInputVectorValue : public UObject
+{
+	GENERATED_BODY()
+	
+public:
+	UFUNCTION(BlueprintPure, Category = "Input Value")
+	const FVector2D GetValue() const { return Value; }
+	
+	UPROPERTY(BlueprintAssignable, Category = "Input Value")
+	FInputVectorEvent OnInputEvent;
+	
+	UFUNCTION(BlueprintCallable, Category = "Input Value")
+	void Consume()
+	{
+		IsConsumed = true;
+	}
+	
+	UFUNCTION(BlueprintCallable, Category = "Input Value")
+	void SetValue(FVector2D NewValue)
+	{
+		TimeSinceLastTriggered = 0.f;
+		IsConsumed = false;
+		Value = NewValue;
+		OnInputEvent.Broadcast(Value);
+	}
+	
+	void Tick(float DeltaTime) { TimeSinceLastTriggered += DeltaTime; }
+	
+private:
+	FVector2D Value = FVector2D::ZeroVector;
+	
+	float TimeSinceLastTriggered = 1000.f;
+	
+	bool IsConsumed = true;
+};
+
+UCLASS()
 class GAMBLEPROJECT_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -43,80 +113,49 @@ private:
 
 #pragma region INPUTS
 public:
-	UPROPERTY(EditDefaultsOnly, Category ="Input")
+	UPROPERTY(EditDefaultsOnly, Category ="Inputs")
 	TObjectPtr<UPlayerInputData> InputData;
 	
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputVectorEvent OnMoveInputEvent;
-	
-	UFUNCTION(BlueprintPure, Category ="Input")
-	const FVector2D GetMoveInputDirection() const { return CurrentMoveInput; }
-	
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputVectorEvent OnAimInputEvent;
-	
-	UFUNCTION(BlueprintGetter)
-	const FVector2D GetAimInputDirection() const { return CurrentAimInput; }
-	
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputBoolEvent OnJumpInputEvent;
-		
-	UFUNCTION(BlueprintGetter)
-	const bool IsJumpInputPressed() const { return CurrentJumpInput; }
-	
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputBoolEvent OnSprintInputEvent;
-			
-	UFUNCTION(BlueprintGetter)
-	const bool IsSprintInputPressed() const { return CurrentSprintInput; }
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputVectorValue* MovementInput;
 
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputBoolEvent OnCrouchInputEvent;
-			
-	UFUNCTION(BlueprintGetter)
-	const bool IsCrouchInputPressed() const { return CurrentCrouchInput; }
-
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputBoolEvent OnFireInputEvent;
-			
-	UFUNCTION(BlueprintGetter)
-	const bool IsFireInputPressed() const { return CurrentFireInput; }
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputVectorValue* AimInput;
 	
-	UPROPERTY(BlueprintAssignable, Category = "Input Events")
-	FInputBoolEvent OnRerollInputEvent;
-			
-	UFUNCTION(BlueprintGetter)
-	const bool IsRerollInputPressed() const { return CurrentRerollInput; }
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputBoolValue* JumpInput;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputBoolValue* SprintInput;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputBoolValue* CrouchInput;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputBoolValue* FireInput;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Inputs")
+	UInputBoolValue* RerollInput;
 	
 private:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
+	void InputValuesInit();
+	
+	void InputValuesTick(float DeltaTime);
+	
 	void OnInputMove(const FInputActionValue& InputActionValue);
-
-	FVector2D CurrentMoveInput;
 	
 	void OnInputAim(const FInputActionValue& InputActionValue);
 	
-	FVector2D CurrentAimInput;
-	
 	void OnInputJump(const FInputActionValue& InputActionValue);
-	
-	bool CurrentJumpInput;
 	
 	void OnInputSprint(const FInputActionValue& InputActionValue);
 	
-	bool CurrentSprintInput;
-	
 	void OnInputCrouch(const FInputActionValue& InputActionValue);
-	
-	bool CurrentCrouchInput;
 	
 	void OnInputFire(const FInputActionValue& InputActionValue);
 	
-	bool CurrentFireInput;
-	
 	void OnInputReroll(const FInputActionValue& InputActionValue);
-	
-	bool CurrentRerollInput;
 #pragma endregion
 };
