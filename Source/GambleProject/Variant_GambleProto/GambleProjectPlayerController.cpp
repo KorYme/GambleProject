@@ -2,6 +2,8 @@
 
 
 #include "GambleProjectPlayerController.h"
+
+#include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
@@ -62,5 +64,12 @@ void AGambleProjectPlayerController::SetupInputComponent()
 				}
 			}
 		}
+		// // Bind action to controller once
+		// if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(InputComponent))
+		// {
+		// 	EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnMove);
+		// 	EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnLook);
+		// 	EnhancedInput->BindAction(PrimaryAction, ETriggerEvent::Started, this, &AMyPlayerController::OnPrimaryAction);
+		// }
 	}
 }

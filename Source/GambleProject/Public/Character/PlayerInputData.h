@@ -6,6 +6,8 @@
 #include "Engine/DataAsset.h"
 #include "PlayerInputData.generated.h"
 
+class UInputAction;
+
 UCLASS()
 class GAMBLEPROJECT_API UPlayerInputData : public UDataAsset
 {
