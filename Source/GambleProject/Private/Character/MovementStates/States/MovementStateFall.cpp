@@ -16,6 +16,7 @@ void UMovementStateFall::StateEnter(EMovementStateId PreviousStateId)
 		Character->GetCharacterMovement()->GravityScale = 2 * GetMovementData()->JumpMaxHeight / ((GetMovementData()->FallDuration / 2) 
 			* (GetMovementData()->FallDuration / 2) * 981);
 	}
+	CanCoyoteJump = PreviousStateId != EMovementStateId::Jump;
 	Super::StateEnter(PreviousStateId);
 }
 
@@ -27,6 +28,11 @@ void UMovementStateFall::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateFall::StateTick(float DeltaTime)
 {
+	// TODO MC : (J'AIME PAS MAIS CA MARCHE)
+	if (CanCoyoteJump && IsJumping() && StateMachine->GetCurrentStateTime() <= GetMovementData()->CoyoteJumpTimeFrame)
+	{
+		StateMachine->ChangeState(EMovementStateId::Jump);
+	}
 	if (IsOnGround())
 	{
 		if (IsSliding())

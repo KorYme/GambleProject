@@ -18,6 +18,7 @@ void UGenericStateMachine::StateMachineTick(float DeltaTime)
 	if (CurrentState)
 	{
 		CurrentState->StateTick(DeltaTime);
+		CurrentStateTime += DeltaTime;
 	}
 }
 
@@ -44,6 +45,7 @@ void UGenericStateMachine::ChangeState(uint8 NextStateId)
 		CurrentState->StateExit(NextStateId);
 	}
 
+	CurrentStateTime = 0.f;
 	uint8 PreviousStateID = CurrentStateId;
 	CurrentStateId = NextStateId;
 	CurrentState = *NextState;

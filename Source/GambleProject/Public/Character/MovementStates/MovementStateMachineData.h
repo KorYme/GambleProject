@@ -23,23 +23,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
 	float JumpMoveSpeed = 400.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump", meta= (ClampMin = 0.f))
 	float JumpDuration = 1.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump", meta= (ClampMin = 0.f))
 	float JumpMaxHeight = 100.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump", meta= (ClampMin = 0.f, ClampMax = 1.f))
 	float JumpAirControl = 1.f;
 	
 	// Fall
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall")
 	float FallMoveSpeed = 400.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall", meta= (ClampMin = 0.f))
 	float FallDuration = 1.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall", meta= (ClampMin = 0.f, ClampMax = 1.f))
 	float FallAirControl = 1.f;
 	
 	// Crouch
@@ -50,7 +50,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide")
 	float SlideSpeedMultiplier = 1.2f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin = 0.f))
 	float MinimumSpeedToSlide = 500.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin=0.1f))
@@ -58,6 +58,13 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin = 0.f, ClampMax = 180.f))
 	float SlideMaxRotation = 45.f;
+	
+	// Game feel feature
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game feel", meta= (ClampMin = 0.f, ClampMax = 1.f))
+	float CoyoteJumpTimeFrame = .15f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game feel", meta= (ClampMin = 0.f, ClampMax = 1.f))
+	float InputBufferTime = .15f;
 	
 	// Accessibility feature
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Accessibility")

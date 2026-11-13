@@ -26,6 +26,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AGambleProjectPlayerController> Controller;
 	
+	UFUNCTION(BlueprintCallable)
+	float GetCurrentStateTime() { return CurrentStateTime; };
+	
 protected:
 	UPROPERTY()
 	TMap<uint8, UGenericState*> AllStates;
@@ -38,7 +41,6 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	const UGenericState* GetCurrentState() const { return CurrentState; }
 	
-	
 	virtual TMap<uint8, TSubclassOf<UGenericState>> GetAllState() const;
 	
 	void ChangeState(uint8 NextStateId);
@@ -46,4 +48,7 @@ protected:
 	void InstantiateStates();
 	
 	void InitStates();
+	
+private:
+	float CurrentStateTime;
 };

@@ -20,4 +20,7 @@ public:
 	virtual void StateExit(EMovementStateId NextStateId) override;
 	
 	virtual void StateTick(float DeltaTime) override;
+	
+private:
+	bool CanCoyoteJump;
 };
