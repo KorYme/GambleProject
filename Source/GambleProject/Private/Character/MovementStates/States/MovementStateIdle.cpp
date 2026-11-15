@@ -19,7 +19,6 @@ void UMovementStateIdle::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateIdle::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
 	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
 	if (ChangeStateIf(EMovementStateId::CrouchIdle, IsCrouching())) return;
 	if (IsMoving())

@@ -54,12 +54,12 @@ protected:
 	UFUNCTION(BlueprintPure, Category = "StateMachine")
 	UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
 	
+	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
+	
 	UFUNCTION(BlueprintNativeEvent)
 	void MoveCharacter();
 	
 	virtual void ApplyMovement();
-	
-	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 	
 	virtual void OnInputJumpTriggered(const bool IsJumping);
 	
@@ -69,15 +69,15 @@ protected:
 	
 	bool IsMoving();
 	
-	bool IsSprinting();
-	
 	bool IsOnGround();
+	
+	bool IsFalling();
 	
 	bool IsJumping();
 	
 	bool IsJumpingWithBuffer();
 	
-	bool IsFalling();
+	bool IsSprinting();
 	
 	bool IsCrouching();
 	

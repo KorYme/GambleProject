@@ -39,7 +39,6 @@ void UMovementStateCrouchWalk::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateCrouchWalk::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
 	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
 	if (!IsCrouching())
 	{

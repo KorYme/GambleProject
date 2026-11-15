@@ -39,7 +39,6 @@ void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateSlide::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumping())) return;
 	Character->GetCharacterMovement()->MaxWalkSpeedCrouched -= GetMovementData()->SlideSpeedLossPerSecond * DeltaTime;
 	if (!IsCrouching())
 	{

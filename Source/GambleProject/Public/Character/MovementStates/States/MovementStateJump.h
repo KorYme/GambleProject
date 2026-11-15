@@ -19,5 +19,7 @@ public:
 	virtual void StateTick(float DeltaTime) override;
 	
 protected:
+	virtual void OnInputJumpTriggered(const bool IsJumping) override;
+	
 	float JumpTimer;
 };

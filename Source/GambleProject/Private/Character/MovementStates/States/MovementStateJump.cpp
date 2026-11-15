@@ -43,3 +43,7 @@ void UMovementStateJump::StateTick(float DeltaTime)
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }
+
+void UMovementStateJump::OnInputJumpTriggered(const bool IsJumping)
+{
+}
