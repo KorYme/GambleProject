@@ -1,18 +1,24 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateRun.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UMovementStateRun::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateRun::StateEnter(EMovementStateId PreviousStateId)
 {
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->RunSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
+}
+
+void UMovementStateRun::StateExit(EMovementStateId NextStateId)
+{
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateRun::StateTick(float DeltaTime)

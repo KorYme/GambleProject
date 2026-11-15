@@ -7,7 +7,7 @@
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UMovementStateJump::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateJump::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (Character)
 	{
@@ -20,14 +20,14 @@ void UMovementStateJump::StateEnter(EMovementStateId PreviousStateId)
 		JumpTimer = GetMovementData()->JumpDuration / 2;
 		Character->Jump();
 	}
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateJump::StateExit(EMovementStateId NextStateId)
 {
 	Character->StopJumping();
 	Character->GetCharacterMovement()->GravityScale = 1.f;
-	Super::StateExit(NextStateId);
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateJump::StateTick(float DeltaTime)

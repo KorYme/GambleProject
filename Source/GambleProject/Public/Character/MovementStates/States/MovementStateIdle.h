@@ -12,5 +12,9 @@ class GAMBLEPROJECT_API UMovementStateIdle : public UMovementState
 	GENERATED_BODY()
 	
 public:	
+	virtual bool StateEnter(EMovementStateId PreviousStateId) override;
+	
+	virtual void StateExit(EMovementStateId NextStateId) override;
+	
 	virtual void StateTick(float DeltaTime) override;
 };

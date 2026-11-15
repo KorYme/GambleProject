@@ -57,7 +57,7 @@ void AGambleProjectPlayerController::SetupInputComponent()
 	// only add IMCs for local player controllers
 	if (IsLocalPlayerController())
 	{
-		// Add Input Mapping Cozntext
+		// Add Input Mapping Context
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
 			for (UInputMappingContext* CurrentContext : DefaultMappingContexts)
@@ -138,8 +138,6 @@ void AGambleProjectPlayerController::OnInputMove(const FInputActionValue& InputA
 
 void AGambleProjectPlayerController::OnInputAim(const FInputActionValue& InputActionValue)
 {
-	// AddControllerYawInput(AimInput->GetValue().X);
-	// AddControllerPitchInput(AimInput->GetValue().Y);
 	AimInput->SetValue(InputActionValue.Get<FVector2D>());
 }
 

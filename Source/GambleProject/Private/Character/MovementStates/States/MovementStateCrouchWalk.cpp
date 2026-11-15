@@ -1,21 +1,22 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateCrouchWalk.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UMovementStateCrouchWalk::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateCrouchWalk::StateEnter(EMovementStateId PreviousStateId)
 {
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	
 	if (Character)
 	{
 		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = GetMovementData()->CrouchSpeed;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->Crouch();
 	}
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateCrouchWalk::StateExit(EMovementStateId NextStateId)
@@ -33,7 +34,7 @@ void UMovementStateCrouchWalk::StateExit(EMovementStateId NextStateId)
 				break;
 		}
 	}
-	Super::StateExit(NextStateId);
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateCrouchWalk::StateTick(float DeltaTime)

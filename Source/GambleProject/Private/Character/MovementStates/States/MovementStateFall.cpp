@@ -1,13 +1,12 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateFall.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UMovementStateFall::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateFall::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (Character)
 	{
@@ -17,12 +16,14 @@ void UMovementStateFall::StateEnter(EMovementStateId PreviousStateId)
 			* (GetMovementData()->FallDuration / 2) * 981);
 	}
 	CanCoyoteJump = PreviousStateId != EMovementStateId::Jump;
-	Super::StateEnter(PreviousStateId);
+	
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateFall::StateExit(EMovementStateId NextStateId)
 {
 	Character->GetCharacterMovement()->GravityScale = 1;
+	
 	Super::StateExit(NextStateId);
 }
 

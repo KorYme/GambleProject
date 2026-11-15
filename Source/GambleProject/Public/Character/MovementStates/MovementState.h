@@ -17,8 +17,8 @@ class GAMBLEPROJECT_API UMovementState : public UGenericState
 	GENERATED_BODY()
 public:
 	virtual void StateInit(UGenericStateMachine* InitStateMachine) override;
-
-	virtual void StateEnter(EMovementStateId PreviousStateId);
+	
+	virtual bool StateEnter(EMovementStateId PreviousStateId);
 	
 	virtual void StateExit(EMovementStateId NextStateId);
 	
@@ -28,6 +28,15 @@ private:
 	virtual void StateEnter(uint8 PreviousStateId) final override;
 	
 	virtual void StateExit(uint8 NextStateId) final override;
+	
+	UFUNCTION()
+	void JumpInput(const bool IsJumping);
+	
+	UFUNCTION()
+	void SprintInput(const bool IsSprinting);
+	
+	UFUNCTION()
+	void CrouchInput(const bool IsCrouching);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
@@ -52,10 +61,10 @@ protected:
 	
 	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 	
-	UFUNCTION()
+	virtual void OnInputJumpTriggered(const bool IsJumping);
+	
 	virtual void OnInputSprintTriggered(const bool IsSprinting);
 	
-	UFUNCTION()
 	virtual void OnInputCrouchTriggered(const bool IsCrouching);
 	
 	bool IsMoving();
@@ -65,6 +74,8 @@ protected:
 	bool IsOnGround();
 	
 	bool IsJumping();
+	
+	bool IsJumpingWithBuffer();
 	
 	bool IsFalling();
 	

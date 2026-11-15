@@ -16,26 +16,29 @@ class GAMBLEPROJECT_API UInputBoolValue : public UObject
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintPure, Category = "Input Value")
-	bool GetValue() const { return Value; }
-	
+	void Tick(float DeltaTime);
+
 	UPROPERTY(BlueprintAssignable, Category = "Input Value")
 	FInputBoolEvent OnInputEvent;
+	
+	UFUNCTION(BlueprintPure, Category = "Input Value")
+	bool GetValue() const { return Value; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Input Value")
 	void SetValue(bool NewValue);
 
-	void Tick(float DeltaTime);
-
 	UFUNCTION(BlueprintCallable, Category = "Input Value")
-	void Consume();
+	bool HasBeenTriggeredSince(float TimeBuffer = 0.f) const { return TimeSinceLastPressed <= TimeBuffer; }
+	
+	UFUNCTION(BlueprintCallable, Category = "Input Value")
+	bool TryConsume();
 
 private:
 	bool Value = false;
 	
-	float TimeSinceLastTriggered = 1000.f;
+	float TimeSinceLastPressed = 1000.f;
 	
-	bool IsConsumed = true;
+	bool CanBeConsumed = false;
 };
 
 UCLASS()
@@ -44,24 +47,24 @@ class GAMBLEPROJECT_API UInputVectorValue : public UObject
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintPure, Category = "Input Value")
-	FVector2D GetValue() const { return Value; }
+	void Tick(float DeltaTime);
 	
 	UPROPERTY(BlueprintAssignable, Category = "Input Value")
 	FInputVectorEvent OnInputEvent;
 
+	UFUNCTION(BlueprintPure, Category = "Input Value")
+	FVector2D GetValue() const { return Value; }
+
 	UFUNCTION(BlueprintCallable, Category = "Input Value")
 	void SetValue(FVector2D NewValue);
 
-	void Tick(float DeltaTime);
-
 	UFUNCTION(BlueprintCallable, Category = "Input Value")
-	void Consume();
+	bool TryConsume();
 	
 private:
 	FVector2D Value = FVector2D::ZeroVector;
 	
 	float TimeSinceLastTriggered = 1000.f;
 	
-	bool IsConsumed = true;
+	bool CanBeConsumed = true;
 };

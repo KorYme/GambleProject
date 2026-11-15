@@ -1,6 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateWalk.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
@@ -9,19 +8,19 @@
 #include "Inputs/InputValues.h"
 #include "Controller/GambleProjectPlayerController.h"
 
-void UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 {
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->WalkSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-	Controller->SprintInput->OnInputEvent.AddDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
 	
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateWalk::StateExit(EMovementStateId NextStateId)
 {
-	Controller->SprintInput->OnInputEvent.RemoveDynamic(this, &UMovementStateWalk::OnInputSprintTriggered);
-	Super::StateExit(NextStateId);
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateWalk::StateTick(float DeltaTime)

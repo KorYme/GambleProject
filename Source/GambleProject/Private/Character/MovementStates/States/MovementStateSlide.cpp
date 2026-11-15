@@ -1,21 +1,22 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateSlide.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UMovementStateSlide::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateSlide::StateEnter(EMovementStateId PreviousStateId)
 {
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	
 	if (Character)
 	{
 		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = Character->GetVelocity().Length() * GetMovementData()->SlideSpeedMultiplier;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->Crouch();
 	}
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
@@ -33,7 +34,7 @@ void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
 				break;
 		}
 	}
-	Super::StateExit(NextStateId);
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateSlide::StateTick(float DeltaTime)

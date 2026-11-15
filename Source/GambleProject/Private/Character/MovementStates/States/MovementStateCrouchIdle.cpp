@@ -1,17 +1,18 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Character/MovementStates/States/MovementStateCrouchIdle.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/MovementStates/MovementStateId.h"
 
-void UMovementStateCrouchIdle::StateEnter(EMovementStateId PreviousStateId)
+bool UMovementStateCrouchIdle::StateEnter(EMovementStateId PreviousStateId)
 {
+	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	
 	if (Character)
 	{
 		Character->Crouch();
 	}
-	Super::StateEnter(PreviousStateId);
+	return Super::StateEnter(PreviousStateId);
 }
 
 void UMovementStateCrouchIdle::StateExit(EMovementStateId NextStateId)
@@ -29,7 +30,7 @@ void UMovementStateCrouchIdle::StateExit(EMovementStateId NextStateId)
 				break;
 		}
 	}
-	Super::StateExit(NextStateId);
+	return Super::StateExit(NextStateId);
 }
 
 void UMovementStateCrouchIdle::StateTick(float DeltaTime)
