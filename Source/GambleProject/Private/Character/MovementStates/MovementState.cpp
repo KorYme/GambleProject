@@ -21,11 +21,11 @@ bool UMovementState::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::UntoggleSprintOnEnter) != 0)
 	{
-		UntoggleSprint();
+		StateMachine->UntoggleSprint();
 	}
 	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::UntoggleCrouchOnEnter) != 0)
 	{
-		UntoggleCrouch();
+		StateMachine->UntoggleCrouch();
 	}
 	return true;
 }
@@ -36,6 +36,14 @@ void UMovementState::StateExit(EMovementStateId NextStateId)
 
 void UMovementState::StateEnter(uint8 PreviousStateId)
 {
+	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::CanToggleSprint) != 0)
+	{
+		StateMachine->CheckForSprintBuffer();
+	}
+	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::CanToggleCrouch) != 0)
+	{
+		StateMachine->CheckForCrouchBuffer();
+	}
 	if (!StateEnter((EMovementStateId)PreviousStateId))
 	{
 		return;
@@ -117,29 +125,9 @@ bool UMovementState::IsSprinting()
 	return StateMachine->IsSprinting();
 }
 
-bool UMovementState::IsSprintingWithBuffer()
-{
-	return StateMachine->IsSprintingWithBuffer();
-}
-
-void UMovementState::UntoggleSprint()
-{
-	StateMachine->UntoggleSprint();
-}
-
 bool UMovementState::IsCrouching()
 {
 	return StateMachine->IsCrouching();
-}
-
-bool UMovementState::IsCrouchingWithBuffer()
-{
-	return StateMachine->IsCrouchingWithBuffer();
-}
-
-void UMovementState::UntoggleCrouch()
-{
-	StateMachine->UntoggleCrouch();
 }
 
 bool UMovementState::CanSlide()

@@ -11,7 +11,6 @@
 #include "Engine/Engine.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Inputs/InputValues.h"
-#include "Kismet/KismetStringLibrary.h"
 
 
 void UMovementStateMachine::Initialize(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController)
@@ -37,12 +36,10 @@ void UMovementStateMachine::ChangeState(EMovementStateId NewStateId)
 
 void UMovementStateMachine::StateMachineTick(float DeltaTime)
 {
-	// if (IsStateDebugDisplayed && GEngine)
-	// {
-	// 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Yellow, UEnum::GetValueAsString(GetCurrentStateId()));
-	// 	GEngine->AddOnScreenDebugMessage(0, DeltaTime, FColor::Blue, UKismetStringLibrary::Conv_BoolToString(IsSprintToggled));
-	// 	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Blue, UKismetStringLibrary::Conv_BoolToString(IsCrouchToggled));
-	// }
+	if (IsStateDebugDisplayed && GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Yellow, UEnum::GetValueAsString(GetCurrentStateId()));
+	}
 	Super::StateMachineTick(DeltaTime);
 }
 
@@ -92,17 +89,12 @@ bool UMovementStateMachine::IsSprinting()
 	return MovementData->EnableSprintToggle ? IsSprintToggled : Controller->SprintInput->GetValue();
 }
 
-bool UMovementStateMachine::IsSprintingWithBuffer()
+void UMovementStateMachine::CheckForSprintBuffer()
 {
-	if (MovementData->EnableSprintToggle)
+	if (Controller->SprintInput->HasBeenTriggeredSince(MovementData->InputBufferTime) && Controller->SprintInput->TryConsume())
 	{
-		if (Controller->SprintInput->HasBeenTriggeredSince(MovementData->InputBufferTime) && Controller->SprintInput->TryConsume())
-		{
-			IsSprintToggled = !IsSprintToggled;
-		}
-		return IsSprintToggled;
+		IsSprintToggled = !IsSprintToggled;
 	}
-	return false;
 }
 
 void UMovementStateMachine::UntoggleSprint()
@@ -115,17 +107,12 @@ bool UMovementStateMachine::IsCrouching()
 	return MovementData->EnableCrouchToggle ? IsCrouchToggled : Controller->CrouchInput->GetValue();
 }
 
-bool UMovementStateMachine::IsCrouchingWithBuffer()
+void UMovementStateMachine::CheckForCrouchBuffer()
 {
-	if (MovementData->EnableCrouchToggle)
+	if (Controller->CrouchInput->HasBeenTriggeredSince(MovementData->InputBufferTime) && Controller->CrouchInput->TryConsume())
 	{
-		if (Controller->CrouchInput->HasBeenTriggeredSince(MovementData->InputBufferTime) && Controller->CrouchInput->TryConsume())
-		{
-			IsCrouchToggled = !IsCrouchToggled;
-		}
-		return IsCrouchToggled;
+		IsCrouchToggled = !IsCrouchToggled;
 	}
-	return false;
 }
 
 void UMovementStateMachine::UntoggleCrouch()
@@ -137,7 +124,7 @@ bool UMovementStateMachine::CanSlide()
 {
 	float velocity = Character->GetVelocity().Length();
 	float forwardInput = Controller->MovementInput->GetValue().Y;
-	return velocity > MovementData->MinimumSpeedToSlide && forwardInput > 0;
+	return IsCrouching() && velocity > MovementData->MinimumSpeedToSlide && forwardInput > 0;
 }
 
 void UMovementStateMachine::JumpInput(const bool IsJumping)

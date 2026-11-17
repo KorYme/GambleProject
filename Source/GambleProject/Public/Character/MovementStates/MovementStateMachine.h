@@ -68,13 +68,13 @@ public:
 	
 	bool IsSprinting();
 	
-	bool IsSprintingWithBuffer();
+	void CheckForSprintBuffer();
 	
 	void UntoggleSprint();
 	
 	bool IsCrouching();
 	
-	bool IsCrouchingWithBuffer();
+	void CheckForCrouchBuffer();
 	
 	void UntoggleCrouch();
 	

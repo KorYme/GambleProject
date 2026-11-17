@@ -7,10 +7,10 @@
 bool UMovementStateIdle::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
-	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouchingWithBuffer())) return false;
-	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprintingWithBuffer())) return false; 
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide())) return false;
+	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprinting())) return false; 
 	if (ChangeForStateIf(EMovementStateId::Walk, IsMoving())) return false;
-	if (ChangeForStateIf(EMovementStateId::CrouchIdle, IsCrouchingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::CrouchIdle, IsCrouching())) return false;
 	
 	return Super::StateEnter(PreviousStateId);
 }
@@ -23,7 +23,7 @@ void UMovementStateIdle::StateExit(EMovementStateId NextStateId)
 void UMovementStateIdle::StateTick(float DeltaTime)
 {
 	if (ChangeForStateIf(EMovementStateId::Fall, IsFalling())) return;
-	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide())) return;
 	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprinting())) return;
 	if (ChangeForStateIf(EMovementStateId::Walk, IsMoving())) return;
 	if (ChangeForStateIf(EMovementStateId::CrouchIdle, IsCrouching())) return;
@@ -34,7 +34,4 @@ void UMovementStateIdle::StateTick(float DeltaTime)
 EStateToggleBehaviours UMovementStateIdle::GetToggleBehaviour()
 {
 	return EStateToggleBehaviours::All;
-	// return (EStateToggleBehaviours)((uint8)EStateToggleBehaviours::CanToggleCrouch 
-	// 	| (uint8)EStateToggleBehaviours::UntoggleSprintOnEnter 
-	// 	| (uint8)EStateToggleBehaviours::UntoggleCrouchOnEnter);
 }

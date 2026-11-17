@@ -69,15 +69,7 @@ protected:
 	
 	bool IsSprinting();
 	
-	bool IsSprintingWithBuffer();	
-	
-	void UntoggleSprint();
-	
 	bool IsCrouching();
-	
-	bool IsCrouchingWithBuffer();
-	
-	void UntoggleCrouch();
 	
 	bool CanSlide();
 	

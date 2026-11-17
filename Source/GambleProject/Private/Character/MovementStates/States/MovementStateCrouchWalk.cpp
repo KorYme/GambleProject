@@ -10,7 +10,7 @@ bool UMovementStateCrouchWalk::StateEnter(EMovementStateId PreviousStateId)
 {
 	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
 	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide())) return false;
-	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprintingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprinting())) return false;
 	if (ChangeForStateIf(EMovementStateId::CrouchIdle, !IsMoving())) return false;
 	
 	if (Character)
