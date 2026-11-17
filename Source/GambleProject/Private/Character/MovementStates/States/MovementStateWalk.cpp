@@ -5,12 +5,15 @@
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachineData.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Inputs/InputValues.h"
-#include "Controller/GambleProjectPlayerController.h"
 
 bool UMovementStateWalk::StateEnter(EMovementStateId PreviousStateId)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouchingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Idle, !IsMoving())) return false;
+	if (ChangeForStateIf(EMovementStateId::Run, IsSprintingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Run, IsSprinting())) return false;
+	if (ChangeForStateIf(EMovementStateId::CrouchWalk , IsCrouchingWithBuffer())) return false;
 	
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->WalkSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
@@ -25,21 +28,18 @@ void UMovementStateWalk::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateWalk::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
-	if (ChangeStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
-	if (IsMoving())
-	{
-		if (IsSprinting())
-		{
-			StateMachine->ChangeState(EMovementStateId::Run);
-			return;
-		}
-	}
-	else
-	{
-		StateMachine->ChangeState(EMovementStateId::Idle);
-		return;
-	}
+	if (ChangeForStateIf(EMovementStateId::Fall, IsFalling())) return;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::Idle, !IsMoving())) return;
+	if (ChangeForStateIf(EMovementStateId::Run, IsSprinting())) return;
+	if (ChangeForStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
+	
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }
+
+EStateToggleBehaviours UMovementStateWalk::GetToggleBehaviour()
+{
+	return EStateToggleBehaviours::All;
+}
+

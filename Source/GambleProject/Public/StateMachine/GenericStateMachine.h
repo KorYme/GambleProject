@@ -16,7 +16,9 @@ class GAMBLEPROJECT_API UGenericStateMachine : public UActorComponent
 	GENERATED_BODY()
 	
 public:
-	void Init(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController);
+	virtual void Initialize(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController);
+	
+	virtual void Deinitiliaze();
 	
 	virtual void StateMachineTick(float DeltaTime);
 	
@@ -29,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentStateTime() { return CurrentStateTime; };
 	
+	UFUNCTION(BlueprintCallable)
+	const UGenericState* GetCurrentState() const { return CurrentState; }
+	
 protected:
 	UPROPERTY()
 	TMap<uint8, UGenericState*> AllStates;
@@ -38,12 +43,11 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UGenericState> CurrentState;
 	
-	UFUNCTION(BlueprintCallable)
-	const UGenericState* GetCurrentState() const { return CurrentState; }
-	
 	virtual TMap<uint8, TSubclassOf<UGenericState>> GetAllState() const;
 	
 	void ChangeState(uint8 NextStateId);
+	
+	virtual void OnStateChanged(UGenericState* NewCurrentState); 
 	
 	void InstantiateStates();
 	

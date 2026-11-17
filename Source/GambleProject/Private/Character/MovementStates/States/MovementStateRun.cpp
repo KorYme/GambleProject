@@ -8,7 +8,9 @@
 
 bool UMovementStateRun::StateEnter(EMovementStateId PreviousStateId)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouchingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Walk, !IsSprintingWithBuffer())) return false;
 	
 	Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->RunSpeed;
 	Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
@@ -23,21 +25,19 @@ void UMovementStateRun::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateRun::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
-	if (ChangeStateIf(EMovementStateId::Slide, IsSliding())) return;
-	if (IsMoving())
-	{
-		if (!IsSprinting())
-		{
-			StateMachine->ChangeState(EMovementStateId::Walk);
-			return;
-		}
-	}
-	else
-	{
-		StateMachine->ChangeState(EMovementStateId::Idle);
-		return;
-	}
+	if (ChangeForStateIf(EMovementStateId::Fall, IsFalling())) return;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::Idle, !IsMoving())) return;
+	if (ChangeForStateIf(EMovementStateId::Walk, !IsSprinting())) return;
+	if (ChangeForStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
+	
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
+}
+
+EStateToggleBehaviours UMovementStateRun::GetToggleBehaviour()
+{
+	return (EStateToggleBehaviours)((uint8)EStateToggleBehaviours::CanToggleCrouch 
+		| (uint8)EStateToggleBehaviours::CanToggleSprint 
+		| (uint8)EStateToggleBehaviours::UntoggleCrouchOnEnter);
 }

@@ -68,8 +68,8 @@ public:
 	
 	// Accessibility feature
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Accessibility")
-	bool IsSprintToggle;
+	bool EnableSprintToggle;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Accessibility")
-	bool IsCrouchToggle;
+	bool EnableCrouchToggle;
 };

@@ -14,10 +14,9 @@ bool UMovementStateJump::StateEnter(EMovementStateId PreviousStateId)
 		Character->GetCharacterMovement()->AirControl = GetMovementData()->JumpAirControl;
 		Character->GetCharacterMovement()->MaxWalkSpeed = GetMovementData()->JumpMoveSpeed;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-		Character->GetCharacterMovement()->JumpZVelocity = 4 * GetMovementData()->JumpMaxHeight / GetMovementData()->JumpDuration;
-		Character->GetCharacterMovement()->GravityScale = 2 * GetMovementData()->JumpMaxHeight / ((GetMovementData()->JumpDuration / 2) 
-			* (GetMovementData()->JumpDuration / 2) * 981);
 		JumpTimer = GetMovementData()->JumpDuration / 2;
+		Character->GetCharacterMovement()->JumpZVelocity = 4 * GetMovementData()->JumpMaxHeight / GetMovementData()->JumpDuration;
+		Character->GetCharacterMovement()->GravityScale = 2 * GetMovementData()->JumpMaxHeight / (JumpTimer * JumpTimer * 981);
 		Character->Jump();
 	}
 	return Super::StateEnter(PreviousStateId);
@@ -32,7 +31,7 @@ void UMovementStateJump::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateJump::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Idle, IsOnGround())) return;
+	if (ChangeForStateIf(EMovementStateId::Idle, IsOnGround())) return;
 	JumpTimer -= DeltaTime;
 	if (Character->GetCharacterMovement()->Velocity.Z < 0.f)
 	{
@@ -43,6 +42,12 @@ void UMovementStateJump::StateTick(float DeltaTime)
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }
+
+EStateToggleBehaviours UMovementStateJump::GetToggleBehaviour()
+{
+	return EStateToggleBehaviours::UntoggleCrouchOnEnter;
+}
+
 
 void UMovementStateJump::OnInputJumpTriggered(const bool IsJumping)
 {

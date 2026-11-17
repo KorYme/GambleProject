@@ -35,9 +35,15 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	PlayerController = Cast<AGambleProjectPlayerController>(GetController());
-	MovementStateMachine->Init(this, PlayerController);
+	MovementStateMachine->Initialize(this, PlayerController);
 	Super::BeginPlay();
-}	
+}
+
+void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	MovementStateMachine->Deinitiliaze();
+	Super::EndPlay(EndPlayReason);
+}
 
 void APlayerCharacter::Tick(float DeltaTime)
 {

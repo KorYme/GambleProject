@@ -29,26 +29,22 @@ void UMovementStateFall::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateFall::StateTick(float DeltaTime)
 {
-	if (IsOnGround())
-	{
-		if (IsSliding())
-		{
-			StateMachine->ChangeState(EMovementStateId::Slide);
-			return;
-		}
-		StateMachine->ChangeState(EMovementStateId::Idle);
-		return;
-	}
-	if (ChangeStateIf(EMovementStateId::Idle, IsOnGround())) return;
+	if (ChangeForStateIf(EMovementStateId::Idle, IsOnGround())) return;
+	
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
 }
 
+EStateToggleBehaviours UMovementStateFall::GetToggleBehaviour()
+{
+	return EStateToggleBehaviours::None;
+}
+
 void UMovementStateFall::OnInputJumpTriggered(const bool IsJumping)
 {
-	// TODO MC : (J'AIME PAS MAIS C'EST MIEUX)
 	if (CanCoyoteJump && IsJumping && StateMachine->GetCurrentStateTime() <= GetMovementData()->CoyoteJumpTimeFrame)
 	{
 		StateMachine->ChangeState(EMovementStateId::Jump);
+		return;
 	}
 }

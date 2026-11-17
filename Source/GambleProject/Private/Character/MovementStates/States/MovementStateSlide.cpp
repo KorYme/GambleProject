@@ -8,7 +8,7 @@
 
 bool UMovementStateSlide::StateEnter(EMovementStateId PreviousStateId)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
 	
 	if (Character)
 	{
@@ -40,21 +40,20 @@ void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
 void UMovementStateSlide::StateTick(float DeltaTime)
 {
 	Character->GetCharacterMovement()->MaxWalkSpeedCrouched -= GetMovementData()->SlideSpeedLossPerSecond * DeltaTime;
-	if (!IsCrouching())
-	{
-		StateMachine->ChangeState(EMovementStateId::Run);
-		return;
-	}
-	else if (!IsMoving())
-	{
-		StateMachine->ChangeState(EMovementStateId::CrouchIdle);
-		return;
-	}
-	else if (Character->GetCharacterMovement()->MaxWalkSpeedCrouched <= GetMovementData()->CrouchSpeed)
+	if (ChangeForStateIf(EMovementStateId::Run, !IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::CrouchIdle, !IsMoving())) return;
+	if (Character->GetCharacterMovement()->MaxWalkSpeedCrouched <= GetMovementData()->CrouchSpeed)
 	{
 		StateMachine->ChangeState(EMovementStateId::CrouchWalk);
 		return;
 	}
+	
 	MoveCharacter();
 	Super::StateTick(DeltaTime);
+}
+
+EStateToggleBehaviours UMovementStateSlide::GetToggleBehaviour()
+{
+	return (EStateToggleBehaviours)((uint8)EStateToggleBehaviours::CanToggleCrouch 
+		| (uint8)EStateToggleBehaviours::CanToggleSprint);
 }

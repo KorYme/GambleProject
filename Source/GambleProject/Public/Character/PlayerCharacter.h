@@ -27,6 +27,8 @@ public:
 	APlayerCharacter();
 	
 	virtual void BeginPlay() override;
+	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

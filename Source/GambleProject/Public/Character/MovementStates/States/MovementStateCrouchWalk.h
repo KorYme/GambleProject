@@ -20,4 +20,6 @@ public:
 	virtual void StateExit(EMovementStateId NextStateId) override;
 	
 	virtual void StateTick(float DeltaTime) override;
+	
+	virtual EStateToggleBehaviours GetToggleBehaviour() override;
 };

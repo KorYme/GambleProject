@@ -21,6 +21,8 @@ public:
 	
 	virtual void StateTick(float DeltaTime) override;
 	
+	virtual EStateToggleBehaviours GetToggleBehaviour() override;
+
 protected:
 	virtual void OnInputJumpTriggered(const bool IsJumping) override;
 	

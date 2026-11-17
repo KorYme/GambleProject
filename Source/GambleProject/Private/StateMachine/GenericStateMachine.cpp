@@ -5,12 +5,16 @@
 #include "StateMachine/GenericState.h"
 #include "Character/PlayerCharacter.h"
 
-void UGenericStateMachine::Init(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController)
+void UGenericStateMachine::Initialize(APlayerCharacter* InCharacter, AGambleProjectPlayerController* InController)
 {
 	this->Character = InCharacter;
 	this->Controller = InController;
 	InstantiateStates();
 	InitStates();
+}
+
+void UGenericStateMachine::Deinitiliaze()
+{
 }
 
 void UGenericStateMachine::StateMachineTick(float DeltaTime)
@@ -49,8 +53,13 @@ void UGenericStateMachine::ChangeState(uint8 NextStateId)
 	uint8 PreviousStateID = CurrentStateId;
 	CurrentStateId = NextStateId;
 	CurrentState = *NextState;
+	OnStateChanged(CurrentState);
 
 	CurrentState->StateEnter(PreviousStateID);
+}
+
+void UGenericStateMachine::OnStateChanged(UGenericState* NewCurrentState)
+{
 }
 
 void UGenericStateMachine::InstantiateStates()

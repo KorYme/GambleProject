@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "MovementStateMachine.h"
+#include "StateToggleBehaviours.h"
 #include "StateMachine/GenericState.h"
 #include "MovementState.generated.h"
 
-class UMovementStateMachineData;
 enum class EMovementStateId : uint8;
+class UMovementStateMachineData;
 class UMovementStateMachine;
 
 UCLASS(Abstract)
@@ -24,19 +25,14 @@ public:
 	
 	virtual void StateTick(float DeltaTime) override;
 	
+	virtual void OnInputJumpTriggered(const bool IsJumping);
+	
+	virtual EStateToggleBehaviours GetToggleBehaviour() { return EStateToggleBehaviours::None; };
+	
 private:
 	virtual void StateEnter(uint8 PreviousStateId) final override;
 	
 	virtual void StateExit(uint8 NextStateId) final override;
-	
-	UFUNCTION()
-	void JumpInput(const bool IsJumping);
-	
-	UFUNCTION()
-	void SprintInput(const bool IsSprinting);
-	
-	UFUNCTION()
-	void CrouchInput(const bool IsCrouching);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "StateMachine")
@@ -52,20 +48,14 @@ protected:
 	void OnStateExit(EMovementStateId NextStateId);
 	
 	UFUNCTION(BlueprintPure, Category = "StateMachine")
-	UMovementStateMachineData* GetMovementData() const { return StateMachine->MovementData; }
+	const UMovementStateMachineData* GetMovementData() const { return StateMachine->GetMovementData(); }
 	
-	bool ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
+	bool ChangeForStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void MoveCharacter();
 	
 	virtual void ApplyMovement();
-	
-	virtual void OnInputJumpTriggered(const bool IsJumping);
-	
-	virtual void OnInputSprintTriggered(const bool IsSprinting);
-	
-	virtual void OnInputCrouchTriggered(const bool IsCrouching);
 	
 	bool IsMoving();
 	
@@ -79,7 +69,16 @@ protected:
 	
 	bool IsSprinting();
 	
+	bool IsSprintingWithBuffer();	
+	
+	void UntoggleSprint();
+	
 	bool IsCrouching();
 	
-	bool IsSliding();
+	bool IsCrouchingWithBuffer();
+	
+	void UntoggleCrouch();
+	
+	bool CanSlide();
+	
 };

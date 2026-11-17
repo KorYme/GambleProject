@@ -1,11 +1,11 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Character/MovementStates/MovementState.h"
+
 #include "Camera/CameraComponent.h"
 #include "Character/MovementStates/MovementStateId.h"
 #include "Character/MovementStates/MovementStateMachine.h"
 #include "Character/PlayerCharacter.h"
-#include "Character/MovementStates/MovementStateMachineData.h"
 #include "Controller/GambleProjectPlayerController.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Inputs/InputValues.h"
@@ -19,17 +19,19 @@ void UMovementState::StateInit(UGenericStateMachine* InitStateMachine)
 
 bool UMovementState::StateEnter(EMovementStateId PreviousStateId)
 {
-	Controller->JumpInput->OnInputEvent.AddDynamic(this, &UMovementState::JumpInput);
-	// Controller->SprintInput->OnInputEvent.AddDynamic(this, &UMovementState::SprintInput);
-	// Controller->CrouchInput->OnInputEvent.AddDynamic(this, &UMovementState::CrouchInput);
+	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::UntoggleSprintOnEnter) != 0)
+	{
+		UntoggleSprint();
+	}
+	if (((uint8)GetToggleBehaviour() & (uint8)EStateToggleBehaviours::UntoggleCrouchOnEnter) != 0)
+	{
+		UntoggleCrouch();
+	}
 	return true;
 }
 
 void UMovementState::StateExit(EMovementStateId NextStateId)
 {
-	Controller->JumpInput->OnInputEvent.RemoveDynamic(this, &UMovementState::JumpInput);
-	// Controller->SprintInput->OnInputEvent.RemoveDynamic(this, &UMovementState::SprintInput);
-	// Controller->CrouchInput->OnInputEvent.RemoveDynamic(this, &UMovementState::CrouchInput);
 }
 
 void UMovementState::StateEnter(uint8 PreviousStateId)
@@ -49,27 +51,12 @@ void UMovementState::StateExit(uint8 NextStateId)
 	OnStateExit((EMovementStateId)NextStateId);
 }
 
-void UMovementState::JumpInput(const bool IsJumping)
-{
-	OnInputJumpTriggered(IsJumping);
-}
-
-void UMovementState::SprintInput(const bool IsSprinting)
-{
-	OnInputSprintTriggered(IsSprinting);
-}
-
-void UMovementState::CrouchInput(const bool IsCrouching)
-{
-	OnInputCrouchTriggered(IsCrouching);
-}
-
 void UMovementState::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 }
 
-bool UMovementState::ChangeStateIf(EMovementStateId NewStateId, bool ShouldChangeState)
+bool UMovementState::ChangeForStateIf(EMovementStateId NewStateId, bool ShouldChangeState)
 {
 	if (ShouldChangeState)
 	{
@@ -97,69 +84,65 @@ void UMovementState::ApplyMovement()
 // State change checks
 void UMovementState::OnInputJumpTriggered(const bool IsJumping)
 {
-	ChangeStateIf(EMovementStateId::Jump, IsJumping);
-}
-
-void UMovementState::OnInputSprintTriggered(const bool IsSprinting)
-{
-	if (!IsMoving())
-	{
-		return;
-	}
-	if (IsSprinting)
-	{
-		StateMachine->ChangeState(EMovementStateId::Run);
-	}
-	else
-	{
-		StateMachine->ChangeState(EMovementStateId::Walk);
-	}
-}
-
-void UMovementState::OnInputCrouchTriggered(const bool IsCrouching)
-{
-	// TODO : Add behaviour for crouch run and idle
-	ChangeStateIf(EMovementStateId::CrouchIdle, IsCrouching);
+	ChangeForStateIf(EMovementStateId::Jump, IsJumping);
 }
 
 bool UMovementState::IsMoving()
 {
-	return Controller->MovementInput->GetValue().SquaredLength() > 0;
+	return StateMachine->IsMoving();
 }
 
 bool UMovementState::IsOnGround()
 {
-	return Character->GetMovementComponent()->IsMovingOnGround();
+	return StateMachine->IsOnGround();
 }
 
 bool UMovementState::IsFalling()
 {
-	return Character->GetMovementComponent()->IsFalling();
+	return StateMachine->IsFalling();
 }
 
 bool UMovementState::IsJumping()
 {
-	return Controller->JumpInput->GetValue();
+	return StateMachine->IsJumping();
 }
 
 bool UMovementState::IsJumpingWithBuffer()
 {
-	return Controller->JumpInput->HasBeenTriggeredSince(GetMovementData()->InputBufferTime) && Controller->JumpInput->TryConsume();
+	return StateMachine->IsJumpingWithBuffer();
 }
 
 bool UMovementState::IsSprinting()
 {
-	return Controller->SprintInput->GetValue();
+	return StateMachine->IsSprinting();
+}
+
+bool UMovementState::IsSprintingWithBuffer()
+{
+	return StateMachine->IsSprintingWithBuffer();
+}
+
+void UMovementState::UntoggleSprint()
+{
+	StateMachine->UntoggleSprint();
 }
 
 bool UMovementState::IsCrouching()
 {
-	return Controller->CrouchInput->GetValue();
+	return StateMachine->IsCrouching();
 }
-	
-bool UMovementState::IsSliding()
+
+bool UMovementState::IsCrouchingWithBuffer()
 {
-	float velocity = Character->GetVelocity().Length();
-	float inputDir = Controller->MovementInput->GetValue().Y;
-	return IsCrouching() && velocity > GetMovementData()->MinimumSpeedToSlide && inputDir > 0;
+	return StateMachine->IsCrouchingWithBuffer();
+}
+
+void UMovementState::UntoggleCrouch()
+{
+	StateMachine->UntoggleCrouch();
+}
+
+bool UMovementState::CanSlide()
+{
+	return StateMachine->CanSlide();
 }

@@ -3,11 +3,14 @@
 #include "Character/MovementStates/States/MovementStateIdle.h"
 #include "Character/MovementStates/MovementState.h"
 #include "Character/MovementStates/MovementStateId.h"
-#include "Controller/GambleProjectPlayerController.h"
 
 bool UMovementStateIdle::StateEnter(EMovementStateId PreviousStateId)
 {
-	if (ChangeStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Jump, IsJumpingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouchingWithBuffer())) return false;
+	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprintingWithBuffer())) return false; 
+	if (ChangeForStateIf(EMovementStateId::Walk, IsMoving())) return false;
+	if (ChangeForStateIf(EMovementStateId::CrouchIdle, IsCrouchingWithBuffer())) return false;
 	
 	return Super::StateEnter(PreviousStateId);
 }
@@ -19,19 +22,19 @@ void UMovementStateIdle::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateIdle::StateTick(float DeltaTime)
 {
-	if (ChangeStateIf(EMovementStateId::Fall, IsFalling())) return;
-	if (ChangeStateIf(EMovementStateId::CrouchIdle, IsCrouching())) return;
-	if (IsMoving())
-	{
-		if (!IsSprinting())
-		{
-			StateMachine->ChangeState(EMovementStateId::Walk);
-		}
-		else
-		{
-			StateMachine->ChangeState(EMovementStateId::Run);
-		}
-		return;
-	}
+	if (ChangeForStateIf(EMovementStateId::Fall, IsFalling())) return;
+	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide() && IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::Run, IsMoving() && IsSprinting())) return;
+	if (ChangeForStateIf(EMovementStateId::Walk, IsMoving())) return;
+	if (ChangeForStateIf(EMovementStateId::CrouchIdle, IsCrouching())) return;
+	
 	Super::StateTick(DeltaTime);
+}
+
+EStateToggleBehaviours UMovementStateIdle::GetToggleBehaviour()
+{
+	return EStateToggleBehaviours::All;
+	// return (EStateToggleBehaviours)((uint8)EStateToggleBehaviours::CanToggleCrouch 
+	// 	| (uint8)EStateToggleBehaviours::UntoggleSprintOnEnter 
+	// 	| (uint8)EStateToggleBehaviours::UntoggleCrouchOnEnter);
 }
