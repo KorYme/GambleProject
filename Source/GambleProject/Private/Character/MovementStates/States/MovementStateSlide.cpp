@@ -12,7 +12,7 @@ bool UMovementStateSlide::StateEnter(EMovementStateId PreviousStateId)
 	
 	if (Character)
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = Character->GetVelocity().Length() * GetMovementData()->SlideSpeedMultiplier;
+		Character->GetCharacterMovement()->MaxWalkSpeedCrouched = Character->GetVelocity().Length() * GetMovementData()->SlideInitialBoostSpeedMultiplier;
 		Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		Character->Crouch();
 	}

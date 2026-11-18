@@ -21,7 +21,7 @@ public:
 	
 	// Jump
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
-	float JumpMoveSpeed = 400.f;
+	float JumpHorizontalSpeed = 400.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump", meta= (ClampMin = 0.f))
 	float JumpDuration = 1.f;
@@ -34,7 +34,7 @@ public:
 	
 	// Fall
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall")
-	float FallMoveSpeed = 400.f;
+	float FallHorizontalSpeed = 400.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fall", meta= (ClampMin = 0.f))
 	float FallDuration = 1.f;
@@ -48,19 +48,22 @@ public:
 
 	// Slide
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide")
-	float SlideSpeedMultiplier = 1.2f;
+	float SlideInitialBoostSpeedMultiplier = 1.2f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin = 0.f))
 	float MinimumSpeedToSlide = 500.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin=0.1f))
-	float SlideSpeedLossPerSecond = 200.f;
+	float SlideFriction = 200.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin = 0.f, ClampMax = 180.f))
 	float SlideMaxRotation = 45.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide|Slope", meta= (ClampMin = 0.f))
-	float SlopeSpeedGainMultiplier = 1.f;
+	float MaxSlideSpeed = 1.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide|Slope", meta= (ClampMin = 0.f))
+	float SlopeSpeedModifier = 1.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide|Slope", meta= (ToolTip = "Speed gain from flat surface to 90° per second and multiplied by SlopeSpeedMultiplier"))
 	TObjectPtr<UCurveFloat> SlopeSpeedPerAngle;
