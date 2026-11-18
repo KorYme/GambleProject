@@ -31,7 +31,7 @@ void UMovementStateFall::StateTick(float DeltaTime)
 {
 	if (ChangeForStateIf(EMovementStateId::Idle, IsOnGround())) return;
 	
-	MoveCharacter();
+	MoveCharacter(DeltaTime);
 	Super::StateTick(DeltaTime);
 }
 

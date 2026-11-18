@@ -39,7 +39,7 @@ void UMovementStateJump::StateTick(float DeltaTime)
 		StateMachine->ChangeState(EMovementStateId::Fall);
 		return;
 	}
-	MoveCharacter();
+	MoveCharacter(DeltaTime);
 	Super::StateTick(DeltaTime);
 }
 

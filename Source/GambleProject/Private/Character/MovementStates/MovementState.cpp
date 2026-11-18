@@ -74,19 +74,19 @@ bool UMovementState::ChangeForStateIf(EMovementStateId NewStateId, bool ShouldCh
 	return false;
 }
 
-void UMovementState::MoveCharacter_Implementation()
+void UMovementState::MoveCharacter_Implementation(float DeltaTime)
 {
-	ApplyMovement();
+	ApplyMovement(DeltaTime);
 }
 
-void UMovementState::ApplyMovement()
+void UMovementState::ApplyMovement(float DeltaTime)
 {
 	if (!Character) return;
 	FVector2D InputMove = Controller->MovementInput->GetValue();
 	FVector2D Direction2D = (FVector2D)Character->GetCameraComponent()->GetForwardVector() * InputMove.Y 
 		+ (FVector2D)Character->GetCameraComponent()->GetRightVector() * InputMove.X;
 	Direction2D.Normalize();
-	Character->AddMovementInput(FVector(Direction2D.X, Direction2D.Y, 0.0f), 1);
+	Character->AddMovementInput(FVector(Direction2D, 0.0f), 1);
 }
 
 // State change checks

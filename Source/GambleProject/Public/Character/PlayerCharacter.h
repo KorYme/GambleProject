@@ -35,6 +35,9 @@ public:
 	
 	const UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetSlopeNormal();
+	
 private:
 	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UMovementStateMachine> MovementStateMachine;

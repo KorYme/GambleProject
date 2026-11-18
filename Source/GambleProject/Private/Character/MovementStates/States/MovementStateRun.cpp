@@ -30,9 +30,9 @@ void UMovementStateRun::StateTick(float DeltaTime)
 	if (ChangeForStateIf(EMovementStateId::Slide, CanSlide())) return;
 	if (ChangeForStateIf(EMovementStateId::Idle, !IsMoving())) return;
 	if (ChangeForStateIf(EMovementStateId::Walk, !IsSprinting())) return;
-	if (ChangeForStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
+	if (ChangeForStateIf(EMovementStateId::CrouchWalk, !IsSprinting() && IsCrouching())) return;
 	
-	MoveCharacter();
+	MoveCharacter(DeltaTime);
 	Super::StateTick(DeltaTime);
 }
 

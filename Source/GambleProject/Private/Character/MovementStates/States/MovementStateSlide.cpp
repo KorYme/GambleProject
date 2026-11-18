@@ -39,16 +39,11 @@ void UMovementStateSlide::StateExit(EMovementStateId NextStateId)
 
 void UMovementStateSlide::StateTick(float DeltaTime)
 {
-	Character->GetCharacterMovement()->MaxWalkSpeedCrouched -= GetMovementData()->SlideSpeedLossPerSecond * DeltaTime;
 	if (ChangeForStateIf(EMovementStateId::Run, !IsCrouching())) return;
 	if (ChangeForStateIf(EMovementStateId::CrouchIdle, !IsMoving())) return;
-	if (Character->GetCharacterMovement()->MaxWalkSpeedCrouched <= GetMovementData()->CrouchSpeed)
-	{
-		StateMachine->ChangeState(EMovementStateId::CrouchWalk);
-		return;
-	}
+	if (ChangeForStateIf(EMovementStateId::CrouchWalk, FVector2D(Character->GetVelocity().X, Character->GetVelocity().Y).SquaredLength() <= GetMovementData()->CrouchSpeed * GetMovementData()->CrouchSpeed)) return;
 	
-	MoveCharacter();
+	MoveCharacter(DeltaTime);
 	Super::StateTick(DeltaTime);
 }
 

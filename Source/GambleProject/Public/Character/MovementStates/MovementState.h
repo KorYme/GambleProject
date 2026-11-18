@@ -53,9 +53,9 @@ protected:
 	bool ChangeForStateIf(EMovementStateId NewStateId, bool ShouldChangeState);
 	
 	UFUNCTION(BlueprintNativeEvent)
-	void MoveCharacter();
+	void MoveCharacter(float DeltaTime);
 	
-	virtual void ApplyMovement();
+	virtual void ApplyMovement(float DeltaTime);
 	
 	bool IsMoving();
 	

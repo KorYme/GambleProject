@@ -50,3 +50,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 	MovementStateMachine->StateMachineTick(DeltaTime);
 	Super::Tick(DeltaTime);
 }
+
+FVector APlayerCharacter::GetSlopeNormal_Implementation()
+{
+	return FVector(0.0f, 0.0f, 1.0f);
+}

@@ -33,7 +33,7 @@ void UMovementStateWalk::StateTick(float DeltaTime)
 	if (ChangeForStateIf(EMovementStateId::Run, IsSprinting())) return;
 	if (ChangeForStateIf(EMovementStateId::CrouchWalk, IsCrouching())) return;
 	
-	MoveCharacter();
+	MoveCharacter(DeltaTime);
 	Super::StateTick(DeltaTime);
 }
 

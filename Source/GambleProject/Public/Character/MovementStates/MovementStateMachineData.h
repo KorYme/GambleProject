@@ -59,6 +59,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide", meta= (ClampMin = 0.f, ClampMax = 180.f))
 	float SlideMaxRotation = 45.f;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide|Slope", meta= (ClampMin = 0.f))
+	float SlopeSpeedGainMultiplier = 1.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Slide|Slope", meta= (ToolTip = "Speed gain from flat surface to 90° per second and multiplied by SlopeSpeedMultiplier"))
+	TObjectPtr<UCurveFloat> SlopeSpeedPerAngle;
+	
 	// Game feel feature
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game feel", meta= (ClampMin = 0.f, ClampMax = 1.f))
 	float CoyoteJumpTimeFrame = .15f;
